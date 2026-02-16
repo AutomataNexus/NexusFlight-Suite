@@ -121,6 +121,6 @@ After flashing, configure your FC through the NexusGround tabs:
 
 ## Need Help?
 
-- Visit [AutomataNexus.com](https://automatanexus.com)
+- Visit [AutomataNexus.com](https://NexusFlight.AutomataControls.com)
 - Email: devops@automatanexus.com
 - Open an issue: [GitHub Issues](https://github.com/AutomataNexus/NexusFlight-Suite/issues)

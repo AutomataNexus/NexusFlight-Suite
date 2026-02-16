@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://automatanexus.com"><img src="https://img.shields.io/badge/AutomataNexus.com-FF6B00?style=for-the-badge&logo=firefox&logoColor=white" alt="Website"></a>
+  <a href="https://NexusFlight.AutomataControls.com"><img src="https://img.shields.io/badge/AutomataNexus.com-FF6B00?style=for-the-badge&logo=firefox&logoColor=white" alt="Website"></a>
   &nbsp;
   <img src="https://img.shields.io/badge/Language-Rust-DEA584?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
   &nbsp;
@@ -50,7 +50,7 @@
   <a href="#nexuscore-library">Core Library</a> &nbsp;&bull;&nbsp;
   <a href="docs/GETTING_STARTED.md">Getting Started</a> &nbsp;&bull;&nbsp;
   <a href="docs/SUPPORTED_HARDWARE.md">Supported Hardware</a> &nbsp;&bull;&nbsp;
-  <a href="https://automatanexus.com">AutomataNexus.com</a>
+  <a href="https://NexusFlight.AutomataControls.com">AutomataNexus.com</a>
 </p>
 
 ---
@@ -235,7 +235,7 @@ The NexusFlight source code is maintained in private repositories. We welcome co
 
 **To request access:**
 
-1. Visit [AutomataNexus.com](https://automatanexus.com) and reach out via the contact form
+1. Visit [AutomataNexus.com](https://NexusFlight.AutomataControls.com) and reach out via the contact form
 2. Email us at **devops@automatanexus.com** with:
    - Your GitHub username
    - What you'd like to contribute (firmware, drivers, ground station, docs, testing)
@@ -248,7 +248,7 @@ We typically respond within 48 hours.
 
 ## Community
 
-- **Website:** [AutomataNexus.com](https://automatanexus.com)
+- **Website:** [AutomataNexus.com](https://NexusFlight.AutomataControls.com)
 - **Email:** devops@automatanexus.com
 - **Issues & Requests:** [GitHub Issues](https://github.com/AutomataNexus/NexusFlight-Suite/issues)
 
@@ -258,11 +258,11 @@ We typically respond within 48 hours.
 
 NexusFlight Suite is licensed under the **GNU General Public License v3.0**. See [LICENSE](LICENSE) for details.
 
-The NexusCore library may be used under GPLv3 in your own projects. Commercial licensing is available — contact us at [AutomataNexus.com](https://automatanexus.com).
+The NexusCore library may be used under GPLv3 in your own projects. Commercial licensing is available — contact us at [AutomataNexus.com](https://NexusFlight.AutomataControls.com).
 
 ---
 
 <p align="center">
   <strong>Built with Rust. Built for flight.</strong><br/>
-  <a href="https://automatanexus.com">AutomataNexus.com</a>
+  <a href="https://NexusFlight.AutomataControls.com">AutomataNexus.com</a>
 </p>

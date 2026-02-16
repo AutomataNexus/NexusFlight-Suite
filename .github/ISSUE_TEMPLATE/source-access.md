@@ -28,4 +28,4 @@ assignees: ''
 
 ---
 
-*We typically respond within 48 hours. You can also reach us at devops@automatanexus.com or via [AutomataNexus.com](https://automatanexus.com).*
+*We typically respond within 48 hours. You can also reach us at devops@automatanexus.com or via [AutomataNexus.com](https://NexusFlight.AutomataControls.com).*
