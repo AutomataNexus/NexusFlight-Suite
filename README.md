@@ -17,7 +17,7 @@
 </p>
 
 <p align="center">
-  <a href="https://NexusFlight.AutomataControls.com"><img src="https://img.shields.io/badge/NexusFlight.AutomataControls.com-FF6B00?style=for-the-badge&logo=firefox&logoColor=white" alt="Website"></a>
+  <a href="https://NexusFlight.AutomataNexus.com"><img src="https://img.shields.io/badge/NexusFlight.AutomataNexus.com-FF6B00?style=for-the-badge&logo=firefox&logoColor=white" alt="Website"></a>
   &nbsp;
   <img src="https://img.shields.io/badge/Language-Rust-DEA584?style=for-the-badge&logo=rust&logoColor=white" alt="Rust">
   &nbsp;
@@ -50,7 +50,7 @@
   <a href="#nexuscore-library">Core Library</a> &nbsp;&bull;&nbsp;
   <a href="docs/GETTING_STARTED.md">Getting Started</a> &nbsp;&bull;&nbsp;
   <a href="docs/SUPPORTED_HARDWARE.md">Hardware</a> &nbsp;&bull;&nbsp;
-  <a href="https://NexusFlight.AutomataControls.com">Website</a>
+  <a href="https://NexusFlight.AutomataNexus.com">Website</a>
 </p>
 
 ---
@@ -274,7 +274,7 @@ The NexusFlight source code is maintained in private repositories. We welcome co
 
 **To request access:**
 
-1. Visit [NexusFlight.AutomataControls.com](https://NexusFlight.AutomataControls.com) and reach out via the contact form
+1. Visit [NexusFlight.AutomataNexus.com](https://NexusFlight.AutomataNexus.com) and reach out via the contact form
 2. Email us at **devops@automatanexus.com** with:
    - Your GitHub username
    - What you'd like to contribute (firmware, FOC/ESC, drivers, ground station, docs, testing)
@@ -287,7 +287,7 @@ We typically respond within 48 hours.
 
 ## Community
 
-- **Website:** [NexusFlight.AutomataControls.com](https://NexusFlight.AutomataControls.com)
+- **Website:** [NexusFlight.AutomataNexus.com](https://NexusFlight.AutomataNexus.com)
 - **Email:** devops@automatanexus.com
 - **Issues & Requests:** [GitHub Issues](https://github.com/AutomataNexus/NexusFlight-Suite/issues)
 
@@ -297,11 +297,11 @@ We typically respond within 48 hours.
 
 NexusFlight Suite is licensed under the **GNU General Public License v3.0**. See [LICENSE](LICENSE) for details.
 
-Commercial licensing is available — contact us at [NexusFlight.AutomataControls.com](https://NexusFlight.AutomataControls.com).
+Commercial licensing is available — contact us at [NexusFlight.AutomataNexus.com](https://NexusFlight.AutomataNexus.com).
 
 ---
 
 <p align="center">
   <strong>Built with Rust. Built for flight. The only FC suite with integrated FOC.</strong><br/><br/>
-  <a href="https://NexusFlight.AutomataControls.com">NexusFlight.AutomataControls.com</a>
+  <a href="https://NexusFlight.AutomataNexus.com">NexusFlight.AutomataNexus.com</a>
 </p>
