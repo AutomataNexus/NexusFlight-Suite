@@ -5,7 +5,7 @@
 <h1 align="center">NexusFlight Suite</h1>
 
 <p align="center">
-  <strong>The first flight controller ecosystem with integrated Field-Oriented Control ESC firmware — written entirely in Rust</strong>
+  <strong>The first flight controller ecosystem with integrated Field-Oriented Control ESC firmware — firmware written in Rust, configurator in Rust + TypeScript</strong>
 </p>
 
 <p align="center">
@@ -65,7 +65,7 @@ Every existing flight controller firmware — Betaflight, iNav, ArduPilot — tr
 
 NexusFlight Suite is the first and only flight controller ecosystem that ships **integrated FOC (Field-Oriented Control) ESC firmware** alongside the FC firmware — both written in Rust, both configured from the same app, both designed to work as one system. The flight controller doesn't just send throttle percentages; it understands the motor model, tunes the FOC loop, and reads real-time telemetry from every phase of motor commutation.
 
-No other flight controller software does this.
+To the best of our knowledge, no other flight controller software in the FPV drone ecosystem does this.
 
 ---
 
@@ -100,7 +100,7 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 |---|---|---|
 | **Commutation** | 6 discrete steps per electrical revolution | Continuous sinusoidal — infinite resolution |
 | **Torque ripple** | High — causes vibration and noise | Near-zero — smoother motor, cleaner gyro signal |
-| **Efficiency** | ~85% typical | ~92-95% — less heat, longer flight times |
+| **Efficiency** | ~85% typical | Up to ~90-93% depending on operating point — most pronounced at partial throttle and low-speed operation |
 | **Low-throttle control** | Coarse, jittery | Precise and linear — better authority on micro quads |
 | **Noise** | Audible commutation whine | Near-silent operation |
 | **Startup** | Can stutter or desync | Controlled align, ramp with stall recovery |
@@ -189,7 +189,7 @@ nexus-core = { git = "https://github.com/AutomataNexus/NexusFlight.git", branch 
 ### NexusFlight Firmware
 
 **Core Flight Stack:**
-- **Pure Rust** — No C dependencies, memory-safe by default
+- **Pure Rust firmware** — FC and ESC firmware have zero C dependencies, memory-safe by default
 - **Embassy async runtime** — Cooperative multitasking with zero-cost state machines on a single stack
 - **7 flight modes** — Acro, Angle, Horizon, Position Hold, Waypoint Mission, Turtle (flip-over-after-crash), Launch Control
 - **Protocol support** — MSP v2, CRSF/ELRS, S.BUS, DShot (150/300/600), SmartAudio, Tramp IRC, UBX GPS
@@ -361,9 +361,11 @@ Hot-path benchmarks (Criterion, Cortex-M7 equivalent):
 
 ## Request Source Access
 
-The NexusFlight source code is maintained in private repositories. We welcome contributors, hardware partners, and community members who want to get involved.
+The NexusFlight source code is maintained in private repositories during pre-1.0 development. We welcome contributors, hardware partners, and community members who want to get involved.
 
-**To request access:**
+**Open-sourcing NexusCore:** We are working toward open-sourcing the `nexus-core` algorithms crate (PID, ADRC, Kalman, AHRS, EKF, filters, mixer — the pure math with no hardware deps) so the underlying implementations can be independently reviewed. This is planned for the v1.0 release.
+
+**To request early access:**
 
 1. Visit [NexusFlight.AutomataNexus.com](https://NexusFlight.AutomataNexus.com) and reach out via the contact form
 2. Email us at **devops@automatanexus.com** with:
