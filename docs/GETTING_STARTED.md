@@ -14,28 +14,28 @@ Download the installer for your operating system from the [Releases](https://git
 
 | Platform | Package |
 |----------|---------|
-| Windows 10/11 | `NexusGround_0.1.0_x64-setup.exe` |
-| Ubuntu / Debian | `NexusGround_0.1.0_amd64.deb` |
-| Fedora / RHEL | `NexusGround-0.1.0-1.x86_64.rpm` |
-| Any Linux | `NexusGround_0.1.0_amd64.AppImage` |
+| Windows 10/11 | `NexusGround_0.3.2_x64-setup.exe` |
+| Ubuntu / Debian | `NexusGround_0.3.2_amd64.deb` |
+| Fedora / RHEL | `NexusGround-0.3.2-1.x86_64.rpm` |
+| Any Linux | `NexusGround_0.3.2_amd64.AppImage` |
 
 ### Windows
 Run the `.exe` installer and follow the prompts. NexusGround will be available in your Start menu.
 
 ### Linux (.deb)
 ```bash
-sudo dpkg -i NexusGround_0.1.0_amd64.deb
+sudo dpkg -i NexusGround_0.3.2_amd64.deb
 ```
 
 ### Linux (.rpm)
 ```bash
-sudo rpm -i NexusGround-0.1.0-1.x86_64.rpm
+sudo rpm -i NexusGround-0.3.2-1.x86_64.rpm
 ```
 
 ### Linux (.AppImage)
 ```bash
-chmod +x NexusGround_0.1.0_amd64.AppImage
-./NexusGround_0.1.0_amd64.AppImage
+chmod +x NexusGround_0.3.2_amd64.AppImage
+./NexusGround_0.3.2_amd64.AppImage
 ```
 
 ## Step 2: Connect Your Flight Controller
@@ -84,7 +84,8 @@ After flashing, configure your FC through the NexusGround tabs:
 | Tab | What to Configure |
 |-----|-------------------|
 | **PID Tuning** | Adjust PID gains per axis (Roll, Pitch, Yaw) |
-| **Gyro / Filters** | Configure lowpass filters, notch filters, dynamic notch FFT |
+| **Gyro / Filters** | Configure lowpass filters, Kalman filter, notch filters, dynamic notch |
+| **Auto-Tune** | Load a blackbox log and let the system ID engine compute optimal PID gains |
 
 ### Optional
 
@@ -92,15 +93,16 @@ After flashing, configure your FC through the NexusGround tabs:
 |-----|-------------------|
 | **OSD** | Enable/position OSD elements (battery, RSSI, flight time, etc.) |
 | **VTX** | Set band, channel, and power level (SmartAudio or Tramp) |
-| **GPS** | Configure GPS rescue, satellite display |
+| **GPS** | Configure GPS rescue, position hold, waypoint missions |
 | **Blackbox** | Enable onboard logging, set sample rate divider |
-| **ESC / CoreDrive** | ESC telemetry and configuration |
+| **ESC / CoreDrive** | ESC FOC tuning, motor model parameters, protection thresholds |
+| **Debug** | Live real-time telemetry: gyro, PID, motors, CPU, battery with SVG charts |
 | **CLI** | Advanced settings via command line interface |
 
 ## Step 5: First Flight
 
 1. **Arm your quad** using your configured arm switch
-2. NexusFlight will run pre-arm checks (accelerometer calibrated, receiver connected, throttle low)
+2. NexusFlight will run pre-arm checks (accelerometer calibrated, receiver connected, throttle low, gyro calibrated, battery not critical)
 3. Fly and enjoy!
 
 ## Troubleshooting
@@ -117,7 +119,7 @@ After flashing, configure your FC through the NexusGround tabs:
 
 ### Motors spin in wrong direction
 - Use the Motors tab to test individual motors
-- Swap any two of the three motor wires to reverse direction, or configure in BLHeli/AM32
+- Swap any two of the three motor wires, or reverse direction via the ESC/CoreDrive tab
 
 ## Need Help?
 
