@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="assets/logo.png" alt="NexusFlight Logo" width="560" />
+  <img src="assets/brand/NexusFlightLogo.png" alt="NexusFlight Logo" width="720" />
 </p>
 
 <h1 align="center">NexusFlight Suite</h1>
