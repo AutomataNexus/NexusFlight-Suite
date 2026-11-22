@@ -5,7 +5,7 @@
 <h1 align="center">NexusFlight Suite</h1>
 
 <p align="center">
-  <strong>A flight controller ecosystem built together with its own ESC firmware: NexusFlight FC firmware and CoreDrive ESC firmware, configured from one app, with in-flight AI tuning on the way</strong>
+  <strong>A flight controller ecosystem built together with its own ESC firmware: NexusFlight FC firmware and CoreDrive ESC firmware, configured from one app, with in-flight AI tuning from an Oxiryn-trained model</strong>
 </p>
 
 <p align="center">
@@ -23,6 +23,8 @@
   &nbsp;
   <img src="https://img.shields.io/badge/Platform-STM32%20%7C%20AT32%20%7C%20EFM8-47848F?style=for-the-badge&logo=stmicroelectronics&logoColor=white" alt="Platform">
   &nbsp;
+  <img src="https://img.shields.io/badge/ML-Oxiryn-1F6FEB?style=for-the-badge" alt="Oxiryn">
+  &nbsp;
   <img src="https://img.shields.io/badge/Status-In%20Testing-F5A623?style=for-the-badge" alt="Status: In Testing">
   &nbsp;
   <a href="#request-source-access"><img src="https://img.shields.io/badge/Source-Request%20Access-7C3AED?style=for-the-badge&logo=key&logoColor=white" alt="Source Access"></a>
@@ -37,7 +39,9 @@
   &nbsp;
   <img src="https://img.shields.io/badge/NexusGround-v0.4.3-47848F?style=flat-square&logo=tauri&logoColor=white" alt="NexusGround v0.4.3">
   &nbsp;
-  <img src="https://img.shields.io/badge/NexusTune_AI-in%20development-8E44AD?style=flat-square" alt="NexusTune in development">
+  <img src="https://img.shields.io/badge/NexusTune_AI-in%20review-8E44AD?style=flat-square" alt="NexusTune in review">
+  &nbsp;
+  <img src="https://img.shields.io/badge/Oxiryn-onboard-1F6FEB?style=flat-square" alt="Oxiryn onboard">
   &nbsp;
   <img src="https://img.shields.io/badge/FC_Boards-29-2ea44f?style=flat-square" alt="29 FC Boards">
   &nbsp;
@@ -49,8 +53,10 @@
 <br/>
 
 <p align="center">
+  <a href="#-currently-developing-betafpv-air65-ii">Currently Developing</a> &nbsp;&bull;&nbsp;
   <a href="#project-status">Status</a> &nbsp;&bull;&nbsp;
   <a href="#nexustune--in-flight-ai-tuning">NexusTune AI</a> &nbsp;&bull;&nbsp;
+  <a href="#oxiryn--the-ml-framework-behind-nexustune">Oxiryn</a> &nbsp;&bull;&nbsp;
   <a href="#coredrive--field-oriented-control">FOC ESC</a> &nbsp;&bull;&nbsp;
   <a href="#downloads">Downloads</a> &nbsp;&bull;&nbsp;
   <a href="#nexusflight-firmware">Firmware</a> &nbsp;&bull;&nbsp;
@@ -63,6 +69,62 @@
 
 ---
 
+## 📌 Currently Developing: BETAFPV Air65 II
+
+<p align="center">
+  <img src="https://img.shields.io/badge/PINNED-Currently%20Developing-D73A49?style=for-the-badge" alt="Currently Developing">
+  &nbsp;
+  <img src="https://img.shields.io/badge/FC-STM32G473%2FG474-0078D4?style=for-the-badge" alt="FC STM32G473/G474">
+  &nbsp;
+  <img src="https://img.shields.io/badge/ESC-EFM8BB51-E34F26?style=for-the-badge" alt="ESC EFM8BB51">
+</p>
+
+> **This is the board the whole suite is being brought up on right now.** NexusFlight runs the flight controller, CoreDrive-8051 runs the four ESCs, NexusGround configures both, and NexusTune tunes it in the air. **None of it has flown yet.** The FC firmware for this board is in development and has only run in our boot simulator; CoreDrive-8051 has only run in our ESC simulator and has never been flashed to a real ESC. Do not flash either to your own Air65 II yet.
+
+The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO board, the **BETAFPV Matrix 1S 5IN1 II** (12A), which also carries the receiver, VTX and OSD. That makes it a complete test of NexusFlight's "FC and ESC as one system" idea on a single board.
+
+### The flight controller: Matrix 1S 5IN1 II (`betafpv_g473_v2`)
+
+| | |
+|---|---|
+| **Betaflight target** | `BETAFPVG473_V2` |
+| **MCU** | STM32G473CEU6 per BETAFPV's target (our board reads back as an STM32G474), Cortex-M4F at 170 MHz, 8 MHz crystal |
+| **Gyro** | Bosch **BMI270** on our board. BETAFPV ships this board with any of BMI270, ICM-42688-P, ICM-42622-P or LSM6DSK320X depending on batch, so NexusFlight detects the chip at boot and one image covers all four |
+| **OSD** | AT7456E (MAX7456-compatible) analog OSD on SPI2 |
+| **Receiver** | Onboard serial ExpressLRS 2.4 GHz (CRSF on USART3) |
+| **VTX** | Onboard analog 5.8 GHz VTX, 25 / 100 / 200 / 400 mW, SmartAudio on USART2 |
+| **Motors** | 4 outputs, all on TIM3 (PB0, PB1, PC6, PA4), DShot300 with bidirectional DShot |
+| **NexusFlight target** | `betafpv_g473_v2`, a new target. Not the same as the first-revision `betafpv_g473` image, which uses different pins |
+
+**What's done for it (host, simulator and boot-simulator tested only, nothing flashed):**
+
+- Board pin map taken from Betaflight's target and checked against our own stock board's flash backup: pins, timers, UARTs and SPI buses match.
+- Gyro auto-detection across all four chips, including a new LSM6DSK320X driver.
+- Boot guard, early watchdog, HardFault reset and USB reboot-to-bootloader, so a bad image can't lock the board out of USB.
+- Bidirectional DShot (eRPM per motor), SmartAudio VTX control using the board's own power table, and the AT7456E analog OSD.
+- Flight-setup parity with the stock Betaflight config: Betaflight motor order, board alignment (the stock board is mounted at -135° yaw), props-out, Actual rates, Betaflight throttle curve, arming on any AUX range, and a built-in Air65 II default profile.
+- The image starts cleanly in `tools/boot-sim`, our emulated STM32G473.
+
+**Still to do before first flight:** angle and horizon modes, beeper, turtle mode, VTX pit-mode switch, RPM filter and dynamic notch wired into the loop, TPA and D-max. Then a props-off bench check of every motor and stick direction, and only then a first hover.
+
+### The ESCs: CoreDrive-8051 on the onboard 12A ESCs
+
+| | |
+|---|---|
+| **ESC** | 4 × 1S 12A, on the same Matrix 5IN1 II board |
+| **ESC MCU** | Silicon Labs **EFM8BB51** (8051 core), one per motor |
+| **Stock firmware** | Bluejay 0.19.2, layout tag `#A_X_05#`, 96 kHz PWM |
+| **CoreDrive build** | **CoreDrive-8051**, layout **A_X_05**, matching the board |
+
+- CoreDrive-8051 is CoreDrive for 8-bit ESCs: C (SDCC) with an 8051 assembly commutation core, built on the Bluejay six-step design and FC-compatible with it (DShot300/600, bidirectional DShot with extended telemetry, same settings layout).
+- In our whole-board ESC simulator (`efm8sim`) it passes all 19 test scenarios on each of the five common layouts A to E, including standstill starts straight into 30% and 100% throttle.
+- All four stock ESCs on our Air65 II have been backed up read-only through the flight controller, so the stock Bluejay image can be restored exactly.
+- **Status: sim-tested only. Never flashed to a real ESC.**
+
+**Next steps on this board:** first NexusFlight flash on one board (props off, VTX antenna on, stock firmware backed up), then a CoreDrive-8051 bench test on a single ESC, then first flights. The second Air65 II stays on stock firmware until the first one is proven.
+
+---
+
 ## Project Status
 
 > **NexusFlight is in testing. Beta releases are coming soon.**
@@ -72,21 +134,23 @@
 | Piece | Version | State |
 |-------|---------|-------|
 | NexusFlight FC firmware | v0.3.3 | 29 board targets build. Hardware bring-up in progress on the T-Motor F411 AIO and the BETAFPV Air65 II. |
-| BETAFPV Air65 II (STM32G473) support | in review | New board target, gyro auto-detect across four chips, boot guard. Passes the boot simulator. Not yet run on hardware. |
+| BETAFPV Air65 II (`betafpv_g473_v2`) | **currently developing** | New board target with gyro auto-detect, boot guard, bidirectional DShot, SmartAudio, OSD and Betaflight-compatible motor order and board alignment. Passes the boot simulator. Not yet flashed or flown. See [Currently Developing](#-currently-developing-betafpv-air65-ii). |
 | CoreDrive FOC ESC firmware (32-bit) | v0.3.2 | 245 ESC board configs, 4 MCU families. Host-tested, not yet run on a real ESC. |
-| CoreDrive-8051 (8-bit EFM8BB51) | in development | Runs in a whole-board simulator. Never flashed. |
+| CoreDrive-8051 (8-bit EFM8BB51) | **currently developing** | Target: the Air65 II's 12A ESCs (layout A_X_05). 19 of 19 simulator scenarios pass on layouts A to E. Stock ESCs backed up. Never flashed. |
 | NexusGround configurator | v0.4.3 | Windows and Linux installers available. DFU flashing works on Windows. |
-| NexusTune in-flight AI tuning | in development | Model, data formats and safety supervisor specified. Training data generator and on-FC kernel being built. Not in any release. |
+| NexusTune in-flight AI tuning | in review | Feature extractor, int8 GRU kernel, safety supervisor and pilot switch are in the flight controller code (SITL tested). First model trained with Oxiryn; not yet passing all accuracy gates. Not in any release, never flown. |
+| Oxiryn (ML framework) | onboard | Trains the NexusTune network and exports the int8 weights the FC runs. Runs on the training machine, not on the aircraft. |
 
 ### What's new since v0.3.2
 
 - **29 board-specific firmware targets** (was 27), each built with its own pin map and compile-time pin conflict checks, all bundled in NexusGround so no build tools are needed.
 - **STM32F411 clock fix** (v0.3.3): F411 boards now run at 96 MHz SYSCLK with a 48 MHz USB clock instead of the F405's 168 MHz configuration.
 - **Working USB DFU flashing on Windows** in NexusGround v0.4.3.
-- **BETAFPV Air65 II support** (in review): the Matrix 1S 5IN1 II board (`betafpv_g473_v2`, STM32G473CEU6) with gyro auto-detection for the ICM-42688-P, ICM-42622-P, BMI270 and LSM6DSK320X, because BETAFPV ships the board with any of the four.
+- **BETAFPV Air65 II support** (currently developing): the Matrix 1S 5IN1 II board (`betafpv_g473_v2`) with gyro auto-detection for the ICM-42688-P, ICM-42622-P, BMI270 and LSM6DSK320X, bidirectional DShot, SmartAudio, AT7456E OSD, and Betaflight-compatible motor order, board alignment, props-out and Actual rates.
 - **Boot guard and USB reboot-to-bootloader** (in review): firmware that fails to start can no longer lock a board out of USB. See [Safety](#flashing-safety).
-- **CoreDrive-8051** (in development): CoreDrive for the 8-bit EFM8BB51 ESCs found on whoop AIO boards like the Air65 II.
-- **NexusTune** (in development): in-flight AI PID tuning trained with the Oxiryn ML framework. See below.
+- **CoreDrive-8051** (currently developing): CoreDrive for the 8-bit EFM8BB51 ESCs found on whoop AIO boards like the Air65 II.
+- **Oxiryn onboard**: Oxiryn, the AutomataNexus machine learning framework written in Rust, is now part of the suite as the training side of NexusTune. See [Oxiryn](#oxiryn--the-ml-framework-behind-nexustune).
+- **NexusTune** (in review): in-flight AI PID tuning. The on-FC inference kernel, supervisor and pilot switch are written and SITL-tested, and the first Oxiryn-trained model exists. See below.
 
 ---
 
@@ -113,7 +177,7 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 | **Gain scheduling** | TPA (linear D-term attenuation) | **Model-based gain scheduling**: scales all PID terms using thrust model curves and battery voltage compensation across the full flight envelope. |
 | **Cross-axis coupling** | None | **Gyroscopic decoupling feedforward**: pre-compensates precession torques during yaw maneuvers. |
 | **Auto-tune** | Manual tuning from blackbox logs | **Frequency-domain system identification**: estimates the plant transfer function from normal flight data via Welch's method. No deliberate oscillation needed. |
-| **In-flight tuning** | None | **NexusTune** *(in development)*: a small neural network on the FC that adjusts PID gains while you fly, inside hard limits, under a safety supervisor. |
+| **In-flight tuning** | None | **NexusTune** *(in review)*: a small Oxiryn-trained neural network on the FC that adjusts PID gains while you fly, inside hard limits, under a safety supervisor. |
 | **Navigation** | None (that's iNav) | **9-state EKF**: GPS-IMU fusion with wind estimation, position hold, waypoint missions, wind-aware RTH. |
 | **ESC integration** | DShot throttle commands | **Integrated ESC firmware**: FOC on 32-bit ESCs, CoreDrive-8051 on 8-bit ESCs, shared motor model, unified configuration. |
 | **Brick protection** | Reboot to bootloader only from firmware that is running | **Boot guard** *(in review)*: after three failed starts in a row the FC drops into its USB bootloader on its own, so a bad image can't lock out a board with no BOOT button. |
@@ -124,7 +188,7 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 ## NexusTune — In-Flight AI Tuning
 
 <p align="center">
-  <img src="https://img.shields.io/badge/STATUS-In%20Development-8E44AD?style=for-the-badge" alt="In Development">
+  <img src="https://img.shields.io/badge/STATUS-In%20Review-8E44AD?style=for-the-badge" alt="In Review">
   &nbsp;
   <img src="https://img.shields.io/badge/Trained_with-Oxiryn-1F6FEB?style=for-the-badge" alt="Trained with Oxiryn">
 </p>
@@ -133,14 +197,36 @@ NexusGround's auto-tune already designs PID gains from blackbox logs on the grou
 
 **How it works:**
 
-- **The model.** A compact GRU network of about **22,000 parameters** (dense 58→64, GRU 64→48, dense 48→32, dense 32→20), quantized to **int8** so it fits in the flash and RAM budget of an F4 or G4 flight controller. It runs at **100 Hz**, separately from the main flight loop.
-- **Trained with Oxiryn.** The network is trained with **Oxiryn**, the AutomataNexus machine learning framework written in Rust, on simulated flights from NexusFlight's software-in-the-loop quad model: different frame sizes, motors, noise, resonances, and damage events mid-flight. Oxiryn produces the weights; the FC runs them with its own fixed-memory inference kernel in `nexus-core`, with no heap and no ML runtime on the aircraft.
-- **What it sees.** 58 features per step from the gyro, setpoint, PID terms, motor outputs and battery: tracking error, overshoot, noise and oscillation measures per axis.
-- **What it changes.** For each of roll, pitch and yaw: P, I, D, feedforward and the D-term filter cutoff, plus the gyro lowpass cutoff. Every output is a **multiplier on the pilot's own tune**, never an absolute gain. P and D are bounded to **0.5× to 1.5×** of the pilot's values (I to 0.5× to 2×, filter cutoffs to 0.7× to 1.4×).
-- **A supervisor has the final say.** The network also outputs an oscillation-risk estimate per axis and a confidence score. A rule-based supervisor clamps every gain to its band, limits how fast it can change, freezes tuning when confidence is low, and **reverts to the pilot's tune** the moment risk climbs.
-- **The pilot stays in charge.** A three-position switch: **low** reverts to your tune, **mid** holds the current gains, **high** lets NexusTune adjust. A tune you like can be saved; one you don't is a flick of the switch away from gone.
+- **The model.** A compact GRU network (dense 75→64, GRU 64→48, dense 48→32, dense 32→20), quantized to **int8** with per-row scales. The whole weight blob is **26,400 bytes**, one inference is about **23,000 multiply-accumulates**, and the tuner needs about **5.3 KB of RAM**, so it fits an F4 or G4 flight controller. It runs at **100 Hz**, separately from the main flight loop.
+- **Trained with Oxiryn.** The network is trained in [Oxiryn](#oxiryn--the-ml-framework-behind-nexustune) on simulated flights from NexusFlight's software-in-the-loop quad model, with varied frames, motors, noise, resonances and deliberately mistuned starting gains. Oxiryn exports the weights as an `NXTM` blob; the FC runs them with its own fixed-memory inference kernel in `nexus-core`.
+- **What it sees.** 75 features per 10 ms step (schema `nxtune-feat-v2`): tracking error, overshoot, noise and oscillation measures per axis from the gyro, setpoint, PID terms, motor outputs and battery, plus the live gains, filter cutoffs and loop rate it is working on.
+- **What it changes.** For each of roll, pitch and yaw: P, I, D, feedforward and the D-term filter cutoff, plus the gyro lowpass cutoff. Every output is a **multiplier on the pilot's own tune**, never an absolute gain. P and D are bounded to **0.5× to 1.5×** of the pilot's values, I to 0.5× to 2×, feedforward to 0.25× to 1.5×, and filter cutoffs to 0.7× to 1.4×.
+- **A supervisor has the final say.** The network also outputs an oscillation-risk estimate per axis and a confidence score. A deterministic, rule-based supervisor clamps every gain to its band, limits how fast it can change, ignores the model when its confidence is below 0.6, aborts on oscillation, noise or loss of authority, and **reverts to the pilot's tune** when risk climbs past 0.7. An onboard recursive-least-squares system identifier runs alongside the network under the same supervisor.
+- **The pilot stays in charge.** A three-position switch: **low** reverts to your tune, **mid** holds the current gains, **high** lets NexusTune adjust. The switch channel is configurable (AUX5 in the Air65 II default profile).
 
-**Status:** the model architecture, the 58-feature input schema, the `.nxtd` training data format and the `NXTM` int8 weight format are specified. The simulation data generator, supervisor and on-FC kernel are being built. **NexusTune is not in any release and has not flown.** It will ship as an opt-in feature once it has been proven on the bench and in flight.
+**Status:** the feature extractor, int8 kernel and `NXTM` loader, supervisor, tuner and pilot switch are in the flight controller code and pass host and SITL tests (in review, not yet merged). `nxtune-check` runs any trained model through the exact firmware kernel and gates it on accuracy, risk detection and parity with Oxiryn's own outputs. The first Oxiryn-trained int8 model clears the risk-detection gate on all three axes but **does not yet clear the P/D accuracy gate**, so training continues. **NexusTune is not in any release and has not flown.** It will ship as an opt-in feature once it has been proven on the bench and in flight.
+
+---
+
+## Oxiryn — The ML Framework Behind NexusTune
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Oxiryn-Onboard-1F6FEB?style=for-the-badge" alt="Oxiryn onboard">
+  &nbsp;
+  <img src="https://img.shields.io/badge/Written_in-Rust-DEA584?style=for-the-badge&logo=rust&logoColor=white" alt="Written in Rust">
+</p>
+
+**Oxiryn** is the AutomataNexus machine learning framework, written in Rust. It is now part of NexusFlight Suite as the training and export side of NexusTune: Oxiryn builds the model, trains it, and produces the weights that fly.
+
+| Step | Where it runs | What happens |
+|------|---------------|--------------|
+| **1. Generate data** | Desktop (`nxtune-datagen`) | NexusFlight's SITL quad model flies thousands of simulated quads and writes `.nxtd` training files with features and target labels. |
+| **2. Train** | Desktop / GPU box, **Oxiryn** | Oxiryn trains the GRU, then fine-tunes it with int8 quantization-aware training so the weights behave the same once quantized. |
+| **3. Export** | **Oxiryn** | Oxiryn writes the `NXTM` blob: int8 weights with per-row scales, a schema CRC so a model can't be loaded against the wrong features, and a checksum. |
+| **4. Verify** | Desktop (`nxtune-check`) | The exported model is run through the exact firmware kernel. Its outputs must match Oxiryn's reference outputs (parity gate 0.02) and pass the accuracy and risk gates. The exporter matches the kernel's reference outputs to within 1e-7. |
+| **5. Fly** | Flight controller, `nexus-core` | The FC's fixed-memory int8 kernel runs the Oxiryn-trained weights at 100 Hz under the supervisor. |
+
+**What runs on the aircraft:** the Oxiryn-trained model, not the Oxiryn library itself. Oxiryn's training stack needs a heap and the standard library, which a flight controller loop should not depend on, so the FC uses its own small kernel with no heap, no allocation and a fixed memory footprint. The `NXTM` format and the kernel are kept bit-compatible with Oxiryn's export, and `nxtune-check` proves it for every model before it can be loaded.
 
 ---
 
@@ -189,16 +275,17 @@ Each axis has its own **PI controller** with independently tunable Kp/Ki gains. 
 ### CoreDrive-8051 — for 8-bit whoop ESCs
 
 <p align="center">
-  <img src="https://img.shields.io/badge/STATUS-In%20Development-E34F26?style=for-the-badge" alt="In Development">
+  <img src="https://img.shields.io/badge/STATUS-Currently%20Developing-E34F26?style=for-the-badge" alt="Currently Developing">
 </p>
 
-Most 1S whoop AIO boards, including the **BETAFPV Air65 II's Matrix 1S 5IN1 II**, drive their motors from a separate 8-bit **Silicon Labs EFM8BB51** (8051 core) that the Rust CoreDrive targets can't run on. **CoreDrive-8051** is CoreDrive for those chips.
+Most 1S whoop AIO boards, including the **BETAFPV Air65 II's Matrix 1S 5IN1 II**, drive their motors from separate 8-bit **Silicon Labs EFM8BB51** chips (8051 core) that the Rust CoreDrive targets can't run on. **CoreDrive-8051** is CoreDrive for those chips.
 
 - Written in **C (SDCC) with an 8051 assembly commutation core**, built on the proven Bluejay six-step design and its timing constants, and FC-compatible with it: DShot300/600, bidirectional DShot with extended telemetry, the same settings layout and layout tags.
-- Developed against a **whole-board simulator** (`efm8sim`) that models the MCU, gate driver, motor and DShot input. All 17 test scenarios pass on each of the five common board layouts. The simulator also found two edge-case fixes over the upstream design: overflow-safe PWM register write order, and correct dead time at 100% duty.
-- Known issue: a start from standstill directly into 30%+ throttle can desync in the simulator. Starts through idle are clean on 25,000 to 36,000 KV motors. A startup handover fix is planned after the first bench run.
-- Comes with a **read-only ESC backup tool** that saves all four stock ESCs through the flight controller before anything is changed.
-- **Status: never flashed to hardware.** First bench tests on the Air65 II follow the stock ESC backup.
+- First target: the Air65 II's 12A ESCs, layout **A_X_05**, with BETAFPV's stock startup power, beep and temperature settings as defaults.
+- Developed against a **whole-board simulator** (`efm8sim`) that models the MCU, gate driver, motor and DShot input. **All 19 test scenarios pass on each of the five common layouts (A to E)**, including standstill starts straight into 30% and 100% throttle on every motor KV tested. The stock Bluejay image also runs in the simulator, so the two can be compared directly.
+- The simulator found two edge-case fixes over the upstream design: overflow-safe PWM register write order, and correct dead time at 100% duty (the stock image shows the shoot-through that CoreDrive-8051 fixes).
+- Comes with a **read-only ESC backup tool** that saves all four stock ESCs through the flight controller before anything is changed. Our Air65 II's four ESCs are backed up.
+- **Status: sim-tested only, never flashed to hardware.** The first bench test is one ESC on the Air65 II, props off.
 
 ### FOC + NexusFlight = Tighter Loop
 
@@ -277,7 +364,7 @@ nexus-core = { git = "https://github.com/AutomataNexus/NexusFlight.git", branch 
 - **Model-based gain scheduling**: thrust-curve-aware PID scaling (linear/sqrt/model-based) + battery voltage compensation. Replaces simple TPA.
 - **Anti-gravity**: throttle change rate detection with temporary I-term boost for punch response.
 - **RC smoothing**: auto-tuned PT1 filter that detects RC frame rate and sets cutoff at 2x.
-- **NexusTune in-flight AI tuning** *(in development)*: see [above](#nexustune--in-flight-ai-tuning).
+- **NexusTune in-flight AI tuning** *(in review)*: see [above](#nexustune--in-flight-ai-tuning).
 
 **Navigation:**
 - **9-state Extended Kalman Filter**: GPS-IMU sensor fusion: position (NED), velocity (NED), wind (NE), vertical accel bias
@@ -329,7 +416,7 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
 
 ## Supported Hardware
 
-NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 families, with the BETAFPV Air65 II board as the 30th target in review. **Hardware verification is in progress; no board is marked flight-proven yet.**
+NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 families. The BETAFPV Air65 II board is the 30th target and the one **currently in development** (see [above](#-currently-developing-betafpv-air65-ii)). **Hardware verification is in progress; no board is marked flight-proven yet.**
 
 | MCU Family | Clock | Boards | Status |
 |------------|-------|--------|--------|
@@ -337,11 +424,19 @@ NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 fam
 | **STM32F411** | 96 MHz | BETAFPV F411, HDZero AIO5, Happymodel CrazyBee F4 DX, T-Motor F411, GEPRC Taker F411 | Bench bring-up in progress (T-Motor F411) |
 | **STM32F722** | 216 MHz | Flywoo F722 Pro V2, GEPRC F722 AIO | Builds, awaiting hardware test |
 | **STM32G473** | 170 MHz | Happymodel CrazyBee G473, BETAFPV G473, GEPRC Taker G473 AIO, HDZero Gamma 45A, HDZero AIO15 | Builds, awaiting hardware test |
-| **STM32G473** | 170 MHz | **BETAFPV Air65 II / Matrix 1S 5IN1 II** (`betafpv_g473_v2`) | In review, bench bring-up next |
+| **STM32G473/G474** | 170 MHz | 📌 **BETAFPV Air65 II / Matrix 1S 5IN1 II** (`betafpv_g473_v2`) | **Currently developing**: boot-simulator tested, first flash next |
 | **STM32H743** | 480 MHz | HDZero Halo, GEPRC Taker H743, Sequre H7 V1/V2, Matek H743, T-Motor Pacer H743, iFlight Blitz H7 Pro | Builds, awaiting hardware test |
 | **AT32F435** | 288 MHz | iFlight Blitz F4 F435 | Configurator board database only; no firmware target yet |
 
 > See [docs/SUPPORTED_HARDWARE.md](docs/SUPPORTED_HARDWARE.md) for the full board list with pinouts and features.
+
+### Supported ESCs
+
+| ESC | MCU | Firmware | Status |
+|-----|-----|----------|--------|
+| 📌 **BETAFPV Matrix 1S 5IN1 II, 4 × 12A** (Air65 II) | EFM8BB51 (8051) | **CoreDrive-8051**, layout A_X_05 | **Currently developing**: simulator tested, never flashed |
+| Other EFM8BB51 Bluejay layouts A to E | EFM8BB51 (8051) | CoreDrive-8051 | Build and pass the simulator, no hardware target yet |
+| 245 32-bit ESC board configs | STM32G071, STM32F051, GD32E230, AT32F421 and more | CoreDrive (FOC / six-step) | Host-tested, not yet run on a real ESC |
 
 ### Supported Gyros
 
@@ -405,8 +500,9 @@ NexusFlight Suite
 │   ├── nexus-core ........... Flight algorithms: PID, ADRC, Kalman, AHRS, EKF,
 │   │                          filters, FFT, mixer, MSP, GPS, OSD, VTX, blackbox,
 │   │                          navigation, waypoints, 36 modules, 460+ tests
-│   │   └── nexustune ........ In-flight AI tuning: feature extractor, int8 GRU
-│   │                          kernel, supervisor (in development)
+│   │   └── nexustune ........ In-flight AI tuning: 75-feature extractor, RLS
+│   │                          system ID, int8 GRU kernel + NXTM loader,
+│   │                          supervisor, tuner (in review)
 │   ├── nexus-hal ............ Hardware abstraction traits (gyro, motor, RC, serial,
 │   │                          storage, ADC, watchdog, beeper, LED strip, servo)
 │   ├── nexus-drivers ........ Device drivers: BMI270, ICM-42688-P/42622-P,
@@ -449,8 +545,11 @@ NexusFlight Suite
 │
 ├── NexusTune Training ...................... in development
 │   ├── nxtune-datagen ....... Simulated flights → .nxtd training data
-│   └── Oxiryn ............... Rust ML framework: trains the GRU, exports int8 NXTM
-│                              weights for the FC kernel
+│   ├── Oxiryn ............... Rust ML framework (onboard): trains the GRU with
+│   │                          int8 quantization-aware training, exports NXTM
+│   │                          weights for the FC kernel
+│   └── nxtune-check ......... Runs a model through the firmware kernel: parity
+│                              with Oxiryn, accuracy and risk gates
 │
 └── Aegis-DB ................. Configuration database (FC + ESC backup/restore/profiles)
 ```
@@ -473,13 +572,13 @@ Hot-path benchmarks (Criterion, Cortex-M7 equivalent):
 
 ## Roadmap to Beta
 
-1. **First hardware boots**: NexusFlight on the T-Motor F411 AIO and the BETAFPV Air65 II, props off: USB, gyro, receiver, DShot output, arming and failsafe.
+1. **📌 Air65 II first boot** (currently developing): NexusFlight on one Air65 II, props off, VTX antenna on, stock firmware backed up: USB, gyro, receiver, DShot output, motor and stick directions, arming and failsafe.
 2. **Boot guard proven on the bench**: reboot to DFU with no button.
-3. **CoreDrive-8051 bench test** on an Air65 II ESC after a full stock backup.
-4. **Bring the boot guard and gyro auto-detect to the F7 and H7 targets.**
-5. **Air65 II peripherals**: SmartAudio VTX control, AT7456E OSD, bidirectional DShot and RPM filtering.
+3. **📌 CoreDrive-8051 bench test** (currently developing) on one Air65 II ESC, with all four stock ESCs already backed up.
+4. **Air65 II flight features**: angle and horizon modes, turtle, beeper, VTX pit mode, RPM filter and dynamic notch in the loop.
+5. **T-Motor F411 AIO recovery and bring-up**, and the boot guard and gyro auto-detect on the F7 and H7 targets.
 6. **First flights**, then **beta releases**.
-7. **NexusTune**: train with Oxiryn, verify in simulation, bench-test the supervisor, then fly as an opt-in feature.
+7. **NexusTune**: keep training in Oxiryn until a model clears every `nxtune-check` gate, bench-test the supervisor, then fly as an opt-in feature.
 
 ---
 
@@ -494,7 +593,7 @@ The NexusFlight source code is maintained in private repositories during pre-1.0
 1. Visit [NexusFlight.AutomataNexus.com](https://NexusFlight.AutomataNexus.com) and reach out via the contact form
 2. Email us at **devops@automatanexus.com** with:
    - Your GitHub username
-   - What you'd like to contribute (firmware, FOC/ESC, drivers, ground station, NexusTune, docs, hardware testing)
+   - What you'd like to contribute (firmware, FOC/ESC, drivers, ground station, NexusTune/Oxiryn, docs, hardware testing)
    - Your experience with flight controllers, motor control, machine learning or embedded Rust
 3. Open an [Issue](https://github.com/AutomataNexus/NexusFlight-Suite/issues/new?template=source-access.md) in this repo using the "Source Access Request" template
 
