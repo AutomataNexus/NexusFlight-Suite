@@ -5,7 +5,7 @@
 <h1 align="center">NexusFlight Suite</h1>
 
 <p align="center">
-  <strong>A flight controller ecosystem built together with its own ESC firmware: NexusFlight FC firmware and CoreDrive ESC firmware, configured from one app, with in-flight AI tuning from an Oxiryn-trained model</strong>
+  <strong>A flight controller ecosystem built together with its own ESC firmware: NexusFlight FC firmware and CoreDrive ESC firmware, configured from one app, with in-flight AI tuning by Vireo, an Oxiryn-trained model</strong>
 </p>
 
 <p align="center">
@@ -42,6 +42,8 @@
   <img src="https://img.shields.io/badge/NexusTune_AI-in%20review-8E44AD?style=flat-square" alt="NexusTune in review">
   &nbsp;
   <img src="https://img.shields.io/badge/Oxiryn-onboard-1F6FEB?style=flat-square" alt="Oxiryn onboard">
+  &nbsp;
+  <img src="https://img.shields.io/badge/Vireo_model-in%20training-1F6FEB?style=flat-square" alt="Vireo model in training">
   &nbsp;
   <img src="https://img.shields.io/badge/FC_Boards-29-2ea44f?style=flat-square" alt="29 FC Boards">
   &nbsp;
@@ -138,8 +140,8 @@ The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO 
 | CoreDrive FOC ESC firmware (32-bit) | v0.3.2 | 245 ESC board configs, 4 MCU families. Host-tested, not yet run on a real ESC. |
 | CoreDrive-8051 (8-bit EFM8BB51) | **currently developing** | Target: the Air65 II's 12A ESCs (layout A_X_05). 19 of 19 simulator scenarios pass on layouts A to E. Stock ESCs backed up. Never flashed. |
 | NexusGround configurator | v0.4.3 | Windows and Linux installers available. DFU flashing works on Windows. |
-| NexusTune in-flight AI tuning | in review | Feature extractor, int8 GRU kernel, safety supervisor and pilot switch are in the flight controller code (SITL tested). First model trained with Oxiryn; not yet passing all accuracy gates. Not in any release, never flown. |
-| Oxiryn (ML framework) | onboard | Trains the NexusTune network and exports the int8 weights the FC runs. Runs on the training machine, not on the aircraft. |
+| NexusTune in-flight AI tuning | in review | Feature extractor, int8 GRU kernel, safety supervisor and pilot switch are in the flight controller code (SITL tested). First version of its model, **Vireo**, trained with Oxiryn; not yet passing all accuracy gates. Not in any release, never flown. |
+| Oxiryn (ML framework) | onboard | Trains Vireo, the NexusTune model, and exports the int8 weights the FC runs. Runs on the training machine, not on the aircraft. |
 
 ### What's new since v0.3.2
 
@@ -150,7 +152,7 @@ The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO 
 - **Boot guard and USB reboot-to-bootloader** (in review): firmware that fails to start can no longer lock a board out of USB. See [Safety](#flashing-safety).
 - **CoreDrive-8051** (currently developing): CoreDrive for the 8-bit EFM8BB51 ESCs found on whoop AIO boards like the Air65 II.
 - **Oxiryn onboard**: Oxiryn, the AutomataNexus machine learning framework written in Rust, is now part of the suite as the training side of NexusTune. See [Oxiryn](#oxiryn--the-ml-framework-behind-nexustune).
-- **NexusTune** (in review): in-flight AI PID tuning. The on-FC inference kernel, supervisor and pilot switch are written and SITL-tested, and the first Oxiryn-trained model exists. See below.
+- **NexusTune** (in review): in-flight AI PID tuning. The on-FC inference kernel, supervisor and pilot switch are written and SITL-tested, and the first version of **Vireo**, the Oxiryn-trained model NexusTune runs, exists. See below.
 
 ---
 
@@ -177,7 +179,7 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 | **Gain scheduling** | TPA (linear D-term attenuation) | **Model-based gain scheduling**: scales all PID terms using thrust model curves and battery voltage compensation across the full flight envelope. |
 | **Cross-axis coupling** | None | **Gyroscopic decoupling feedforward**: pre-compensates precession torques during yaw maneuvers. |
 | **Auto-tune** | Manual tuning from blackbox logs | **Frequency-domain system identification**: estimates the plant transfer function from normal flight data via Welch's method. No deliberate oscillation needed. |
-| **In-flight tuning** | None | **NexusTune** *(in review)*: a small Oxiryn-trained neural network on the FC that adjusts PID gains while you fly, inside hard limits, under a safety supervisor. |
+| **In-flight tuning** | None | **NexusTune** *(in review)*: **Vireo**, a small Oxiryn-trained neural network on the FC, that adjusts PID gains while you fly, inside hard limits, under a safety supervisor. |
 | **Navigation** | None (that's iNav) | **9-state EKF**: GPS-IMU fusion with wind estimation, position hold, waypoint missions, wind-aware RTH. |
 | **ESC integration** | DShot throttle commands | **Integrated ESC firmware**: FOC on 32-bit ESCs, CoreDrive-8051 on 8-bit ESCs, shared motor model, unified configuration. |
 | **Brick protection** | Reboot to bootloader only from firmware that is running | **Boot guard** *(in review)*: after three failed starts in a row the FC drops into its USB bootloader on its own, so a bad image can't lock out a board with no BOOT button. |
@@ -190,21 +192,23 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 <p align="center">
   <img src="https://img.shields.io/badge/STATUS-In%20Review-8E44AD?style=for-the-badge" alt="In Review">
   &nbsp;
+  <img src="https://img.shields.io/badge/Model-Vireo-1F6FEB?style=for-the-badge" alt="Model: Vireo">
+  &nbsp;
   <img src="https://img.shields.io/badge/Trained_with-Oxiryn-1F6FEB?style=for-the-badge" alt="Trained with Oxiryn">
 </p>
 
-NexusGround's auto-tune already designs PID gains from blackbox logs on the ground. **NexusTune moves tuning into the air.** A small recurrent neural network runs on the flight controller, watches how the quad actually responds to your sticks, and nudges the gains toward a better tune while you fly.
+NexusGround's auto-tune already designs PID gains from blackbox logs on the ground. **NexusTune moves tuning into the air.** NexusTune is the tuning system; **Vireo** is the small recurrent neural network at its heart. Vireo runs on the flight controller, watches how the quad actually responds to your sticks, and nudges the gains toward a better tune while you fly.
 
 **How it works:**
 
-- **The model.** A compact GRU network (dense 75→64, GRU 64→48, dense 48→32, dense 32→20), quantized to **int8** with per-row scales. The whole weight blob is **26,400 bytes**, one inference is about **23,000 multiply-accumulates**, and the tuner needs about **5.3 KB of RAM**, so it fits an F4 or G4 flight controller. It runs at **100 Hz**, separately from the main flight loop.
-- **Trained with Oxiryn.** The network is trained in [Oxiryn](#oxiryn--the-ml-framework-behind-nexustune) on simulated flights from NexusFlight's software-in-the-loop quad model, with varied frames, motors, noise, resonances and deliberately mistuned starting gains. Oxiryn exports the weights as an `NXTM` blob; the FC runs them with its own fixed-memory inference kernel in `nexus-core`.
+- **The model: Vireo.** A compact GRU network (dense 75→64, GRU 64→48, dense 48→32, dense 32→20), quantized to **int8** with per-row scales. The whole weight blob is **26,400 bytes**, one inference is about **23,000 multiply-accumulates**, and the tuner needs about **5.3 KB of RAM**, so it fits an F4 or G4 flight controller. It runs at **100 Hz**, separately from the main flight loop.
+- **Trained with Oxiryn.** Vireo is trained in [Oxiryn](#oxiryn--the-ml-framework-behind-nexustune) on simulated flights from NexusFlight's software-in-the-loop quad model, with varied frames, motors, noise, resonances and deliberately mistuned starting gains. Oxiryn exports Vireo's weights as an `NXTM` blob; the FC runs them with its own fixed-memory inference kernel in `nexus-core`.
 - **What it sees.** 75 features per 10 ms step (schema `nxtune-feat-v2`): tracking error, overshoot, noise and oscillation measures per axis from the gyro, setpoint, PID terms, motor outputs and battery, plus the live gains, filter cutoffs and loop rate it is working on.
 - **What it changes.** For each of roll, pitch and yaw: P, I, D, feedforward and the D-term filter cutoff, plus the gyro lowpass cutoff. Every output is a **multiplier on the pilot's own tune**, never an absolute gain. P and D are bounded to **0.5× to 1.5×** of the pilot's values, I to 0.5× to 2×, feedforward to 0.25× to 1.5×, and filter cutoffs to 0.7× to 1.4×.
-- **A supervisor has the final say.** The network also outputs an oscillation-risk estimate per axis and a confidence score. A deterministic, rule-based supervisor clamps every gain to its band, limits how fast it can change, ignores the model when its confidence is below 0.6, aborts on oscillation, noise or loss of authority, and **reverts to the pilot's tune** when risk climbs past 0.7. An onboard recursive-least-squares system identifier runs alongside the network under the same supervisor.
+- **A supervisor has the final say.** Vireo also outputs an oscillation-risk estimate per axis and a confidence score. A deterministic, rule-based supervisor clamps every gain to its band, limits how fast it can change, ignores Vireo when its confidence is below 0.6, aborts on oscillation, noise or loss of authority, and **reverts to the pilot's tune** when risk climbs past 0.7. An onboard recursive-least-squares system identifier runs alongside Vireo under the same supervisor.
 - **The pilot stays in charge.** A three-position switch: **low** reverts to your tune, **mid** holds the current gains, **high** lets NexusTune adjust. The switch channel is configurable (AUX5 in the Air65 II default profile).
 
-**Status:** the feature extractor, int8 kernel and `NXTM` loader, supervisor, tuner and pilot switch are in the flight controller code and pass host and SITL tests (in review, not yet merged). `nxtune-check` runs any trained model through the exact firmware kernel and gates it on accuracy, risk detection and parity with Oxiryn's own outputs. The first Oxiryn-trained int8 model clears the risk-detection gate on all three axes but **does not yet clear the P/D accuracy gate**, so training continues. **NexusTune is not in any release and has not flown.** It will ship as an opt-in feature once it has been proven on the bench and in flight.
+**Status:** the feature extractor, int8 kernel and `NXTM` loader, supervisor, tuner and pilot switch are in the flight controller code and pass host and SITL tests (in review, not yet merged). `nxtune-check` runs any trained model through the exact firmware kernel and gates it on accuracy, risk detection and parity with Oxiryn's own outputs. The first Oxiryn-trained int8 Vireo model clears the risk-detection gate on all three axes but **does not yet clear the P/D accuracy gate**, so training continues. **NexusTune is not in any release and has not flown.** It will ship as an opt-in feature once it has been proven on the bench and in flight.
 
 ---
 
@@ -216,17 +220,17 @@ NexusGround's auto-tune already designs PID gains from blackbox logs on the grou
   <img src="https://img.shields.io/badge/Written_in-Rust-DEA584?style=for-the-badge&logo=rust&logoColor=white" alt="Written in Rust">
 </p>
 
-**Oxiryn** is the AutomataNexus machine learning framework, written in Rust. It is now part of NexusFlight Suite as the training and export side of NexusTune: Oxiryn builds the model, trains it, and produces the weights that fly.
+**Oxiryn** is the AutomataNexus machine learning framework, written in Rust. It is now part of NexusFlight Suite as the training and export side of NexusTune: Oxiryn builds **Vireo**, trains it, and produces the weights that fly.
 
 | Step | Where it runs | What happens |
 |------|---------------|--------------|
 | **1. Generate data** | Desktop (`nxtune-datagen`) | NexusFlight's SITL quad model flies thousands of simulated quads and writes `.nxtd` training files with features and target labels. |
-| **2. Train** | Desktop / GPU box, **Oxiryn** | Oxiryn trains the GRU, then fine-tunes it with int8 quantization-aware training so the weights behave the same once quantized. |
-| **3. Export** | **Oxiryn** | Oxiryn writes the `NXTM` blob: int8 weights with per-row scales, a schema CRC so a model can't be loaded against the wrong features, and a checksum. |
-| **4. Verify** | Desktop (`nxtune-check`) | The exported model is run through the exact firmware kernel. Its outputs must match Oxiryn's reference outputs (parity gate 0.02) and pass the accuracy and risk gates. The exporter matches the kernel's reference outputs to within 1e-7. |
-| **5. Fly** | Flight controller, `nexus-core` | The FC's fixed-memory int8 kernel runs the Oxiryn-trained weights at 100 Hz under the supervisor. |
+| **2. Train** | Desktop / GPU box, **Oxiryn** | Oxiryn trains Vireo, then fine-tunes it with int8 quantization-aware training so the weights behave the same once quantized. |
+| **3. Export** | **Oxiryn** | Oxiryn writes Vireo as an `NXTM` blob: int8 weights with per-row scales, a schema CRC so a model can't be loaded against the wrong features, and a checksum. |
+| **4. Verify** | Desktop (`nxtune-check`) | The exported Vireo model is run through the exact firmware kernel. Its outputs must match Oxiryn's reference outputs (parity gate 0.02) and pass the accuracy and risk gates. The exporter matches the kernel's reference outputs to within 1e-7. |
+| **5. Fly** | Flight controller, `nexus-core` | The FC's fixed-memory int8 kernel runs Vireo's Oxiryn-trained weights at 100 Hz under the supervisor. |
 
-**What runs on the aircraft:** the Oxiryn-trained model, not the Oxiryn library itself. Oxiryn's training stack needs a heap and the standard library, which a flight controller loop should not depend on, so the FC uses its own small kernel with no heap, no allocation and a fixed memory footprint. The `NXTM` format and the kernel are kept bit-compatible with Oxiryn's export, and `nxtune-check` proves it for every model before it can be loaded.
+**What runs on the aircraft:** Vireo, the Oxiryn-trained model, not the Oxiryn library itself. Oxiryn's training stack needs a heap and the standard library, which a flight controller loop should not depend on, so the FC uses its own small kernel with no heap, no allocation and a fixed memory footprint. The `NXTM` format and the kernel are kept bit-compatible with Oxiryn's export, and `nxtune-check` proves it for every Vireo build before it can be loaded.
 
 ---
 
@@ -545,7 +549,7 @@ NexusFlight Suite
 │
 ├── NexusTune Training ...................... in development
 │   ├── nxtune-datagen ....... Simulated flights → .nxtd training data
-│   ├── Oxiryn ............... Rust ML framework (onboard): trains the GRU with
+│   ├── Oxiryn ............... Rust ML framework (onboard): trains Vireo with
 │   │                          int8 quantization-aware training, exports NXTM
 │   │                          weights for the FC kernel
 │   └── nxtune-check ......... Runs a model through the firmware kernel: parity
@@ -578,7 +582,7 @@ Hot-path benchmarks (Criterion, Cortex-M7 equivalent):
 4. **Air65 II flight features**: angle and horizon modes, turtle, beeper, VTX pit mode, RPM filter and dynamic notch in the loop.
 5. **T-Motor F411 AIO recovery and bring-up**, and the boot guard and gyro auto-detect on the F7 and H7 targets.
 6. **First flights**, then **beta releases**.
-7. **NexusTune**: keep training in Oxiryn until a model clears every `nxtune-check` gate, bench-test the supervisor, then fly as an opt-in feature.
+7. **NexusTune**: keep training Vireo in Oxiryn until it clears every `nxtune-check` gate, bench-test the supervisor, then fly as an opt-in feature.
 
 ---
 
