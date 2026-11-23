@@ -2,6 +2,52 @@
 
 All notable changes to NexusFlight Suite will be documented in this file.
 
+## [Unreleased] — development builds, 2026-11-23
+
+Nothing in this section is in a published release yet. Each item says how far it has been tested.
+
+### NexusFlight Firmware (development builds)
+
+**BETAFPV Air65 II (`betafpv_g473_v2`, Matrix 1S 5IN1 II): first flight**
+- Flashed to two Air65 II quads over USB with no BOOT button, every flash read back and checked.
+- **First flight on 2026-11-23**, props on, on stock Bluejay ESCs. It flew well through normal flying. During hard flips and a punch into a 180° turn it lost a motor or its receiver link and crashed. **Cause unknown**; that flight was not logged (see Blackbox below).
+- Verified on hardware: USB and MSP v2, BMI270 detection at 3.2 kHz, attitude, ELRS receiver, DShot motor output and arming, SmartAudio readout of the VTX, the 16 MB blackbox flash chip, and MSP reboot to the DFU bootloader (about 1.2 s, no button).
+- Board defaults ported from our pilot's own Betaflight tune: Betaflight motor order and axis signs, -135° board alignment, props out, Actual rates, throttle curve, PIDs, AUX mode ranges and arming on any AUX range.
+- Flight features ported from Betaflight (built and simulator-tested; not yet confirmed on hardware): angle and horizon, turtle, beeper and DShot beacons, VTX pit-mode switch, RPM filter, SDFT dynamic notch, TPA, anti-gravity, D-max, dynamic D lowpass, I-term relax, airmode, dynamic idle, feedforward jitter reduction, CRSF telemetry to the radio, current sensor, Betaflight-font OSD elements and the post-flight stats screen, motor test from the configurator (disarmed, 10% cap, 5 s timeout).
+- **Known open issues:** no OSD in the goggles yet (fix in progress, untested on hardware); the unexplained in-flight drop above; Betaflight Configurator (MSP v1) does not connect.
+
+**Vireo in-flight tuner (NexusTune)**
+- Vireo v8, trained with Oxiryn, compiled into the Air65 II build. Acts only with AUX5 high and its confidence at or above 0.5; the supervisor reverts to the pilot's tune on risk and keeps the last good gains.
+- Every tuning step, and every tenth set of model inputs, is written to the blackbox with a CRC.
+- In SITL, v8 improved the tune in 15 of 24 flights and stayed safe in all of them. P/D accuracy is 0.122 octaves against a 0.12 gate, so training continues. **Not yet evaluated in flight.**
+
+**Blackbox**
+- Logs to the board's SPI flash chip (16 MB on the Air65 II, size read from the JEDEC ID) at 1 kHz by DMA, appending after existing logs and never erasing automatically.
+- Logging stops after a failsafe landing, so a board left on USB power no longer fills the chip. (The first flight's log was lost this way.)
+- Fast streaming download (`MSP_DATAFLASH_DUMP`): 1 MB pieces with a CRC-32 each, replacing a page-by-page read that took about 17 minutes for a full chip. The command answers on hardware; full-chip speed not yet measured.
+- Verified on hardware: chip detection, full erase, empty-chip readback. A full in-flight log has not yet been downloaded and decoded.
+
+**STM32G473 target fixes** (affect every G473 board)
+- DShot DMA request, DMA burst register address (the G4's TIMx_DMAR is not at the F4's offset), ADC clock, 170 MHz boost mode and flash erase pages were each wrong in a way that stops a real board. All fixed. The first Air65 II battery test armed with no motor turning because of the burst register.
+- The OSD keeps looking for the AT7456E after start-up, since on the Air65 II it only powers up with the battery.
+
+**Flashing safety**
+- Reboot-to-bootloader now remaps system flash before jumping to the ROM bootloader (G4 and F4). An earlier build hung at this step on the Air65 II.
+- Boot simulator extended: SPI flash with DMA and page programming, G4 DMA burst registers, the bootloader-jump remap, and a "battery plugged in after USB" scenario. It now fails the older broken images and passes the current ones.
+
+### NexusGround (development build)
+
+- **Redesign** in teal, graphite and cream, with light and dark themes, grouped navigation and a live status strip (craft, arm state, modes, battery, link, loop time, CPU, Vireo).
+- **Runs on Windows** as a native development build.
+- NexusTune tab with Vireo's live model, state and confidence; blackbox explorer that uses the fast download, decodes the chip log format and shows Vireo's tuning record; OSD layout read from and saved to the FC with a teal/grey/cream preview; Actual-rates preview; motor test; profiles that save without a database server.
+- Fixed an idle request storm to the FC caused by unstable hook objects.
+
+### Coming next
+
+- Find the cause of the in-flight drop from a logged flight.
+- OSD in the goggles, then a NexusFlight boot logo on the OSD.
+- Confirm bidirectional DShot eRPM, the RPM filter and the remaining Air65 II features on hardware.
+
 ## [0.2.0 / 0.3.2] — 2026-02-18
 
 ### NexusFlight Firmware v0.3.2
