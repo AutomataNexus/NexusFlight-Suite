@@ -25,7 +25,7 @@
   &nbsp;
   <img src="https://img.shields.io/badge/ML-Oxiryn-1F6FEB?style=for-the-badge" alt="Oxiryn">
   &nbsp;
-  <img src="https://img.shields.io/badge/Status-First%20Flight%20%C2%B7%20Pre--beta-F5A623?style=for-the-badge" alt="Status: First flight, pre-beta">
+  <img src="https://img.shields.io/badge/Status-Flying%20%C2%B7%20Pre--beta-F5A623?style=for-the-badge" alt="Status: Flying, pre-beta">
   &nbsp;
   <a href="#request-source-access"><img src="https://img.shields.io/badge/Source-Request%20Access-7C3AED?style=for-the-badge&logo=key&logoColor=white" alt="Source Access"></a>
 </p>
@@ -33,7 +33,7 @@
 <p align="center">
   <img src="https://img.shields.io/badge/NexusFlight-v0.3.3%20release%20%C2%B7%20dev%20builds%20flying-0078D4?style=flat-square&logo=drone&logoColor=white" alt="NexusFlight v0.3.3 release, development builds flying">
   &nbsp;
-  <img src="https://img.shields.io/badge/Air65_II-first%20flight%202026--11--23-2ea44f?style=flat-square" alt="Air65 II first flight 2026-11-23">
+  <img src="https://img.shields.io/badge/Air65_II_Championship_Edition-all%20features%20flying-2ea44f?style=flat-square" alt="Air65 II Championship Edition: all features flying">
   &nbsp;
   <img src="https://img.shields.io/badge/CoreDrive_FOC-v0.3.2-E34F26?style=flat-square&logo=hackthebox&logoColor=white" alt="CoreDrive v0.3.2">
   &nbsp;
@@ -41,7 +41,7 @@
   &nbsp;
   <img src="https://img.shields.io/badge/NexusGround-v0.4.3%20release%20%C2%B7%20redesign%20in%20dev-47848F?style=flat-square&logo=tauri&logoColor=white" alt="NexusGround v0.4.3, redesign in development">
   &nbsp;
-  <img src="https://img.shields.io/badge/Vireo-v8%20onboard%20%C2%B7%20not%20yet%20proven%20in%20flight-8E44AD?style=flat-square" alt="Vireo v8 onboard, not yet proven in flight">
+  <img src="https://img.shields.io/badge/Vireo-v8%20flight%20tested-8E44AD?style=flat-square" alt="Vireo v8 flight tested">
   &nbsp;
   <img src="https://img.shields.io/badge/Blackbox-16%20MB%20flash%20%C2%B7%20fast%20download-1F6FEB?style=flat-square" alt="Blackbox on 16 MB flash with fast download">
   &nbsp;
@@ -55,7 +55,7 @@
 <br/>
 
 <p align="center">
-  <a href="#-currently-developing-betafpv-air65-ii">Air65 II</a> &nbsp;&bull;&nbsp;
+  <a href="#-currently-developing-betafpv-air65-ii-championship-edition">Air65 II</a> &nbsp;&bull;&nbsp;
   <a href="#project-status">Status</a> &nbsp;&bull;&nbsp;
   <a href="#known-issues">Known Issues</a> &nbsp;&bull;&nbsp;
   <a href="#nexustune--in-flight-ai-tuning">NexusTune &amp; Vireo</a> &nbsp;&bull;&nbsp;
@@ -70,21 +70,21 @@
 
 ---
 
-## 📌 Currently Developing: BETAFPV Air65 II
+## 📌 Currently Developing: BETAFPV Air65 II Championship Edition
 
 <p align="center">
   <img src="https://img.shields.io/badge/PINNED-Currently%20Developing-D73A49?style=for-the-badge" alt="Currently Developing">
   &nbsp;
-  <img src="https://img.shields.io/badge/NexusFlight-First%20Flight-2ea44f?style=for-the-badge" alt="NexusFlight first flight">
+  <img src="https://img.shields.io/badge/NexusFlight-Flying%2C%20all%20features%20working-2ea44f?style=for-the-badge" alt="NexusFlight flying, all features working">
   &nbsp;
   <img src="https://img.shields.io/badge/FC-STM32G473%2FG474-0078D4?style=for-the-badge" alt="FC STM32G473/G474">
   &nbsp;
   <img src="https://img.shields.io/badge/ESC-EFM8BB51-E34F26?style=for-the-badge" alt="ESC EFM8BB51">
 </p>
 
-> **NexusFlight has flown.** On 23 November 2026 a BETAFPV Air65 II running a NexusFlight development build took its first flight, props on, and flew well through normal flying. It is not ready for anyone else to fly yet: during hard flips and a punch into a 180° turn the quad lost a motor or its receiver link and went down, and the cause is not known yet. The analog OSD does not show in the goggles yet either. See [Known Issues](#known-issues). The ESCs still run their stock Bluejay firmware; CoreDrive-8051 has only run in our simulator.
+> **NexusFlight flies the Air65 II Championship Edition, with every feature of its build working.** The first flight was on 23 November 2026. Since then the in-flight freezes that caused motor and receiver drops under hard flying have been traced and fixed, the analog OSD is live in the goggles with the NexusFlight boot logo, and our pilot reports every feature of the Air65 II build operational in flight. That includes the **Vireo in-flight tuner, which has been flight-tested and is operational** (see [NexusTune](#nexustune--in-flight-ai-tuning)). The ESCs still run their stock Bluejay firmware, since CoreDrive-8051 has only run in our simulator. The other supported boards are being brought up separately; none of them has flown yet.
 
-The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO board, the **BETAFPV Matrix 1S 5IN1 II** (12A), which also carries the receiver, VTX, OSD and a 16 MB flash chip. That makes it a complete test of NexusFlight's "FC and ESC as one system" idea on a single board.
+The Air65 II Championship Edition is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO board, the **BETAFPV Matrix 1S 5IN1 II** (12A), which also carries the receiver, VTX, OSD and a 16 MB flash chip. That makes it a complete test of NexusFlight's "FC and ESC as one system" idea on a single board.
 
 ### The flight controller: Matrix 1S 5IN1 II (`betafpv_g473_v2`)
 
@@ -93,27 +93,33 @@ The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO 
 | **Betaflight target** | `BETAFPVG473_V2` |
 | **MCU** | STM32G473CEU6 per BETAFPV's target (our boards read back as STM32G474), Cortex-M4F at 170 MHz, 8 MHz crystal |
 | **Gyro** | Bosch **BMI270** on our boards, detected by NexusFlight on hardware and running at 3.2 kHz. BETAFPV ships this board with any of BMI270, ICM-42688-P, ICM-42622-P or LSM6DSK320X depending on batch, so NexusFlight detects the chip at boot and one image covers all four (only the BMI270 has been seen on real hardware) |
-| **OSD** | AT7456E (MAX7456-compatible) analog OSD on SPI2. **Not working on hardware yet**, fix in progress |
-| **Receiver** | Onboard serial ExpressLRS 2.4 GHz (CRSF on USART3). Flown with NexusFlight |
-| **VTX** | Onboard analog 5.8 GHz VTX, 25 / 100 / 200 / 400 mW, SmartAudio on USART2. NexusFlight reads its band, channel and power on hardware |
-| **Blackbox** | 16 MB SPI flash on SPI3, used by NexusFlight for blackbox logging |
+| **OSD** | AT7456E (MAX7456-compatible) analog OSD on PB12 to PB15, driven by NexusFlight over software SPI. Live in flight, with the NexusFlight boot logo |
+| **Receiver** | Onboard serial ExpressLRS 2.4 GHz (CRSF on USART3, received into a DMA ring). Flown with NexusFlight, with telemetry back to the radio |
+| **VTX** | Onboard analog 5.8 GHz VTX, 25 / 100 / 200 / 400 mW, SmartAudio on USART2, controlled by NexusFlight including pit mode |
+| **Blackbox** | 16 MB SPI flash on SPI3, logging every NexusFlight flight |
 | **Motors** | 4 outputs, all on TIM3 (PB0, PB1, PC6, PA4), DShot300 with bidirectional DShot |
 | **NexusFlight target** | `betafpv_g473_v2`. Not the same as the first-revision `betafpv_g473` image, which uses different pins |
 
 ### Where it stands
 
-**Seen working on hardware** (two Air65 II quads, on the bench and in one flight):
+**Working on hardware** (two Air65 II Championship Edition quads, on the bench and over many logged flights; our pilot reports every feature of the build operational):
 
 - Flashing over USB with no BOOT button: from stock Betaflight, and from NexusFlight itself, the FC reboots into its DFU bootloader on one MSP command (about 1.2 s), takes the image, and every flash is read back and checked before it is trusted.
-- USB connection and MSP v2, BMI270 detection at 3.2 kHz, attitude, SmartAudio reading the VTX, and the 16 MB blackbox flash chip (detected, erased, and read back).
-- DShot motor output, arming and the ELRS receiver: the quad flew, hovered and handled normal flying well.
+- USB connection and MSP v2, BMI270 detection at 3.2 kHz, attitude and the accelerometer.
+- DShot motor output with bidirectional DShot (per-motor eRPM, logged in the blackbox), arming, the ELRS receiver and CRSF telemetry back to the radio.
+- Acro, angle and horizon, airmode, turtle, beeper and DShot beacons, the VTX pit-mode switch, the RPM filter and dynamic notch, the current sensor, and the rest of the ported Betaflight flight features listed below.
+- **Vireo in-flight tuning**, flight-tested and operational.
+- The analog OSD in the goggles: the pilot's own OSD elements with Betaflight font symbols, the post-flight stats screen, and the NexusFlight boot logo at power-up.
+- Blackbox logging to the 16 MB flash chip in flight, downloaded with the fast streaming read and decoded, including link quality, DShot and receiver error counts, eRPM and per-task timing.
 - Our pilot's own Betaflight tune, ported as the board's defaults: Betaflight motor order, -135° board alignment, props out, Actual rates, his PIDs and throttle curve, and his switch layout.
 
-**Built and simulator-tested, not yet confirmed on hardware:** the analog OSD (no picture in the goggles yet), angle and horizon self-levelling, turtle mode, beeper, VTX pit mode, the RPM filter and dynamic notch (they rely on bidirectional DShot eRPM, which is not yet confirmed on hardware), CRSF telemetry back to the radio, the current sensor, the post-flight stats screen, blackbox writes in flight, the fast blackbox download on a full chip, and the Vireo in-flight tuner.
+**Flight features in the Air65 II build**, ported from Betaflight so it flies like the stock quad: angle and horizon modes, turtle (flip over after crash), beeper and DShot beacons, VTX pit-mode switch, RPM filter (12 poles), dynamic notch, TPA, anti-gravity, D-max, dynamic D lowpass, I-term relax, airmode, dynamic idle, feedforward jitter reduction, CRSF telemetry and the post-flight OSD stats screen.
 
-**Flight features in the Air65 II image**, ported from Betaflight so it flies like the stock quad: angle and horizon modes, turtle (flip over after crash), beeper and DShot beacons, VTX pit-mode switch, RPM filter (12 poles), dynamic notch, TPA, anti-gravity, D-max, dynamic D lowpass, I-term relax, airmode, dynamic idle, feedforward jitter reduction, CRSF telemetry, the post-flight OSD stats screen, and the Vireo tuner on AUX5.
+**How the freezes were found and fixed.** After the first flight, hard flying (flips, punch-outs, fast rolls) sometimes ended in a motor or receiver drop and a crash. We added per-task timing and cycle-counter timestamps to the blackbox, and the logs showed the flight loop stalling for about 845 ms, three times in 13 flights and in each crash, with no gyro dropout, no sleep and no clock jump. With no new DShot frames for 0.85 s the ESCs dropped out. The cause was NexusTune's onboard gain designer (the RLS system identifier's PID design, 150 loop analyses at 96 frequency points), which ran inside the flight loop every 50 windows while armed whatever the tune switch said: about 1.4 ms on a desktop, about 845 ms on the 170 MHz Cortex-M4. It now runs only when it is actually needed: when tuning is switched on and no Vireo model is loaded. With Vireo loaded, Vireo makes the gain proposals and the designer never runs. Since that fix, the desyncs and freezes are gone.
 
-**Next on this board:** find the cause of the in-flight motor or receiver drop from a blackbox log, get the OSD showing in the goggles, confirm bidirectional DShot eRPM with the battery in, then more flights in ANGLE before anything aggressive. A **NexusFlight boot logo** for the OSD is coming once the OSD shows a picture.
+The OSD problem turned out to be in our hardware SPI setup, not the chip: driven by hand, the same pins answered correctly. NexusFlight now drives the AT7456E over software SPI, and the OSD has worked since.
+
+**Next on this board:** publish Vireo's flight results (see [Vireo flight results](#vireo-flight-results)), and split the fallback gain designer across loop passes so it can never stall the flight loop even without a model loaded. The background boxes behind OSD elements are now off by default, at our pilot's request.
 
 ### The ESCs: CoreDrive-8051 on the onboard 12A ESCs
 
@@ -133,16 +139,16 @@ The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO 
 
 ## Project Status
 
-> **NexusFlight is pre-beta. It has flown once, on one board.**
+> **NexusFlight is pre-beta. It flies one board, with every feature of that board's build working.**
 >
-> Every NexusFlight and CoreDrive target compiles and passes its host test suite, and every image is started in our boot simulator before it goes near a board. **One board, the BETAFPV Air65 II, has flown on NexusFlight**, and that flight ended in a crash whose cause we are still tracing. No other board has flown. Until a board is listed as flight-proven, treat its firmware as experimental: keep a backup of the stock firmware, and do not fly it.
+> Every NexusFlight and CoreDrive target compiles and passes its host test suite, and every image is started in our boot simulator before it goes near a board. **The BETAFPV Air65 II Championship Edition flies on NexusFlight**, with every feature of its build reported operational by our pilot. The other boards are being brought up separately and none of them has flown yet. Until a board is listed as flight-proven, treat its firmware as experimental: keep a backup of the stock firmware, and do not fly it.
 
 | Piece | Version | State |
 |-------|---------|-------|
-| NexusFlight FC firmware | v0.3.3 release; development builds since | 30 board targets build (29 released plus the Air65 II). **First flight on the Air65 II** on 2026-11-23. No other board has flown. |
-| BETAFPV Air65 II (`betafpv_g473_v2`) | **currently developing** | Flashed and flown. Bench-verified: USB, MSP, gyro, receiver, motors, VTX readout, blackbox chip, reboot-to-DFU with no button. Open: OSD not showing, one unexplained motor or receiver drop under hard flips. See [Air65 II](#-currently-developing-betafpv-air65-ii). |
-| Vireo in-flight tuner (NexusTune) | Vireo v8, in the Air65 II build | Runs on the FC only with AUX5 high, at a 0.5 confidence gate, under the safety supervisor. Simulator-tested. **Not yet evaluated in flight.** See [NexusTune](#nexustune--in-flight-ai-tuning). |
-| Blackbox | in the Air65 II build | Records to the board's 16 MB flash at 1 kHz, with a fast streaming download. Chip detection, erase and readback verified on hardware; in-flight logging not yet confirmed. See [Blackbox](#blackbox-on-the-flash-chip). |
+| NexusFlight FC firmware | v0.3.3 release; development builds since | 30 board targets build (29 released plus the Air65 II). **Flying on the Air65 II Championship Edition** since 2026-11-23. The other boards are being brought up separately; none has flown yet. |
+| BETAFPV Air65 II Championship Edition (`betafpv_g473_v2`) | **flying** | All features of its build operational on hardware: flight modes, OSD with boot logo, receiver and telemetry, bidirectional DShot and RPM filter, VTX and pit mode, blackbox. The in-flight freezes are fixed. Vireo in-flight tuning flight-tested. See [Air65 II](#-currently-developing-betafpv-air65-ii-championship-edition). |
+| Vireo in-flight tuner (NexusTune) | Vireo v8, in the Air65 II build | **Flight-tested and operational** on the Air65 II Championship Edition, behind its tune switch at a 0.5 confidence gate, under the safety supervisor. Flight data coming to this README. See [NexusTune](#nexustune--in-flight-ai-tuning). |
+| Blackbox | in the Air65 II build | Records every flight to the board's 16 MB flash at 1 kHz, downloaded with the fast streaming read. Verified on hardware; these logs found the in-flight freeze. See [Blackbox](#blackbox-on-the-flash-chip). |
 | NexusGround configurator | v0.4.3 release; redesign in development | Released v0.4.3 installers for Windows and Linux. The **teal, graphite and cream redesign** runs on Windows as a development build; not yet released. See [NexusGround](#nexusground-configurator). |
 | CoreDrive FOC ESC firmware (32-bit) | v0.3.2 | 245 ESC board configs, 4 MCU families. Host-tested, not yet run on a real ESC. |
 | CoreDrive-8051 (8-bit EFM8BB51) | in development, on hold | Target: the Air65 II's 12A ESCs (layout A_X_05). 19 of 19 simulator scenarios pass on layouts A to E. Stock ESCs backed up. Never flashed. |
@@ -151,9 +157,13 @@ The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO 
 
 ### What's new since v0.3.3
 
-- **First flight on the BETAFPV Air65 II**: NexusFlight flashed, armed and flown on a 65 mm whoop, using our pilot's own Betaflight tune ported as defaults.
+- **The BETAFPV Air65 II Championship Edition flies on NexusFlight**, using our pilot's own Betaflight tune ported as defaults, with every feature of its build operational.
+- **In-flight freeze found and fixed**: an 845 ms flight-loop stall from NexusTune's onboard gain designer, which ran while armed whatever the tune switch said, caused the motor and receiver drops under hard flying. It now only runs when tuning is on with no Vireo model loaded. Desyncs and freezes are gone.
+- **OSD live**, driven over software SPI, with the **NexusFlight boot logo** written into the OSD chip's font memory (only changed characters are written, and only while disarmed).
+- **Receiver on a DMA ring**: CRSF frames can no longer be cut short while the receiver task is busy.
+- **Blackbox diagnostics**: link quality, RF mode, DShot and receiver error counts, eRPM, per-task timing and cycle-counter timestamps in every frame.
 - **Air65 II flight features**: angle and horizon, turtle, beeper and DShot beacons, VTX pit mode, RPM filter, dynamic notch, TPA, anti-gravity, D-max, I-term relax, dynamic idle, feedforward jitter reduction, CRSF telemetry and the post-flight stats screen.
-- **Vireo v8 onboard**: the Oxiryn-trained Vireo model is compiled into the Air65 II build, gated on AUX5 and a 0.5 confidence floor, with every tuning step logged to the blackbox.
+- **Vireo v8 onboard**: the Oxiryn-trained Vireo model is compiled into the Air65 II build, with a 0.5 confidence floor and every tuning step logged to the blackbox. **Flight-tested and operational.** The tune switch channel can be set from the configurator.
 - **Blackbox on the 16 MB flash chip** with a **fast streaming download** that replaces a slow page-by-page read, and logging that stops after a failsafe landing so a quad left on USB power can't fill the chip.
 - **NexusGround redesign** in teal, graphite and cream, now running on Windows, with a blackbox explorer that decodes the flash chip's logs and Vireo's tuning record, OSD layout read from and saved to the FC, a Vireo panel, an Actual-rates preview, and profiles that save without a database.
 - **Reboot to DFU proven on hardware**: NexusFlight on the Air65 II drops into its USB bootloader on one MSP command, no button needed. An earlier image hung at this step; the fix (remapping system flash before jumping to the ROM bootloader, on G4 and F4) is now checked by the boot simulator for every image.
@@ -164,15 +174,17 @@ The Air65 II is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO 
 
 ## Known Issues
 
-These are open on the Air65 II right now. None of them is fixed until a build with the fix has been flashed and checked on the board.
+These are open on the Air65 II Championship Edition right now.
 
 | Issue | State |
 |---|---|
-| **Motor or receiver drop under hard flips.** On the first flight, during flips and a hard punch into a 180° turn, the quad lost a motor or its receiver link and crashed. | **Cause unknown.** The flight was not logged: the flash chip had already been filled by failsafe logging while the board sat on USB power. That logging behaviour is fixed in the next build, and the next flight (in ANGLE, tuner off) will be logged and downloaded to find the cause. |
-| **No OSD in the goggles.** Video comes through, but no OSD elements. | **Fix in progress.** The OSD chip on this board only powers up with the battery, and the first builds gave up looking for it before the battery was in; that was fixed, but the OSD still did not show. Newer builds retry with slower and different SPI modes and report exactly what the chip answers. Untested on hardware. |
+| Fallback gain designer runs in one loop pass. | With a Vireo model loaded it never runs. Without a model, tuning would still run the onboard gain designer inside one loop pass, so tuning without a model must not be flown until the designer is split across loop passes. |
 | Betaflight Configurator does not connect (MSP v1). | NexusGround (MSP v2) works. Low priority. |
 | The FC reports a 4 kHz loop to the configurator while it runs at the gyro's 3.2 kHz. | Cosmetic. |
-| Analog OSD colours. | The AT7456E can only draw white text on a grey background. The teal, grey and cream OSD colours apply to NexusGround's OSD preview and to digital (DisplayPort) systems. |
+| Analog OSD colours. | The AT7456E can only draw white or black text, with or without a grey background. The teal, grey and cream OSD colours apply to NexusGround's OSD preview and to digital (DisplayPort) systems. |
+| Other boards. | Only the Air65 II has flown. The other boards are being brought up separately. |
+
+**Fixed and confirmed on the Air65 II:** the motor or receiver drops and freezes under hard flying (the 845 ms gain-designer stall), and the missing OSD (now on software SPI).
 
 ---
 
@@ -199,7 +211,7 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 | **Gain scheduling** | TPA (linear D-term attenuation) | **Model-based gain scheduling**: scales all PID terms using thrust model curves and battery voltage compensation across the full flight envelope. |
 | **Cross-axis coupling** | None | **Gyroscopic decoupling feedforward**: pre-compensates precession torques during yaw maneuvers. |
 | **Auto-tune** | Manual tuning from blackbox logs | **Frequency-domain system identification**: estimates the plant transfer function from normal flight data via Welch's method. No deliberate oscillation needed. |
-| **In-flight tuning** | None | **NexusTune with Vireo**: a small Oxiryn-trained neural network on the FC that adjusts PID gains while you fly, inside hard limits, under a safety supervisor. On board the Air65 II build; not yet proven in flight. |
+| **In-flight tuning** | None | **NexusTune with Vireo**: a small Oxiryn-trained neural network on the FC that adjusts PID gains while you fly, inside hard limits, under a safety supervisor. Flight-tested and operational on the Air65 II Championship Edition. |
 | **Navigation** | None (that's iNav) | **9-state EKF**: GPS-IMU fusion with wind estimation, position hold, waypoint missions, wind-aware RTH. |
 | **ESC integration** | DShot throttle commands | **Integrated ESC firmware**: FOC on 32-bit ESCs, CoreDrive-8051 on 8-bit ESCs, shared motor model, unified configuration. |
 | **Brick protection** | Reboot to bootloader only from firmware that is running | **Boot guard**: after three failed starts in a row the FC drops into its USB bootloader on its own, so a bad image can't lock out a board with no BOOT button. Reboot-to-DFU is proven on the Air65 II; the automatic crash-loop path is simulator-tested. |
@@ -210,7 +222,7 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 ## NexusTune — In-Flight AI Tuning
 
 <p align="center">
-  <img src="https://img.shields.io/badge/STATUS-Onboard%2C%20not%20yet%20proven%20in%20flight-8E44AD?style=for-the-badge" alt="Onboard, not yet proven in flight">
+  <img src="https://img.shields.io/badge/STATUS-Flight%20tested%2C%20operational-2ea44f?style=for-the-badge" alt="Flight tested, operational">
   &nbsp;
   <img src="https://img.shields.io/badge/Model-Vireo%20v8-1F6FEB?style=for-the-badge" alt="Model: Vireo v8">
   &nbsp;
@@ -219,7 +231,7 @@ NexusFlight goes beyond matching Betaflight feature-for-feature. These are capab
 
 NexusGround's auto-tune already designs PID gains from blackbox logs on the ground. **NexusTune moves tuning into the air.** NexusTune is the whole system (onboard system identification, the model and the safety supervisor), and **Vireo** is the model at its heart: a small recurrent neural network, trained with Oxiryn, that runs on the flight controller, watches how the quad actually responds to your sticks, and nudges the gains toward a better tune while you fly.
 
-**Vireo v8 is compiled into the Air65 II build.** It only acts when the tune switch (AUX5) is high and only when its own confidence is at least 0.5, and the supervisor reverts to your tune the moment it sees risk. It has been tested in our flight simulator; **it has not yet been evaluated in a real flight.**
+**Vireo v8 flies on the Air65 II Championship Edition, flight-tested and operational.** It acts only with its tune switch high and its own confidence at least 0.5, and the supervisor reverts to your tune the moment it sees risk. NexusTune also carries an onboard fallback gain designer (the RLS system identifier's PID design) that takes about 845 ms on the Cortex-M4; running inside the flight loop whatever the switch said, it was the cause of the Air65 II's early in-flight freezes. It now runs only when tuning is on with no Vireo model loaded, so with Vireo flying it never runs.
 
 **How it works:**
 
@@ -228,12 +240,16 @@ NexusGround's auto-tune already designs PID gains from blackbox logs on the grou
 - **What it sees.** 75 features per 10 ms step (schema `nxtune-feat-v2`): tracking error, overshoot, noise and oscillation measures per axis from the gyro, setpoint, PID terms, motor outputs, raw throttle, live motor eRPM and battery, plus the live gains, filter cutoffs and loop rate it is working on.
 - **What it changes.** For each of roll, pitch and yaw: P, I, D, feedforward and the D-term filter cutoff, plus the gyro lowpass cutoff. Every output is a **multiplier on the pilot's own tune**, never an absolute gain. P and D are bounded to **0.5× to 1.5×** of the pilot's values, I to 0.5× to 2×, feedforward to 0.25× to 1.5×, and filter cutoffs to 0.7× to 1.4×.
 - **A supervisor has the final say.** Vireo also outputs an oscillation-risk estimate per axis and a confidence score. A deterministic, rule-based supervisor clamps every gain to its band, limits how fast it can change, ignores Vireo below its confidence floor (0.5 on the Air65 II build), aborts on oscillation, noise or loss of authority, and **reverts to the pilot's tune** when risk climbs past 0.7. It keeps the last good set of gains so an abort never lands on something worse than what was flying.
-- **The pilot stays in charge.** A three-position switch: **low** reverts to your tune, **mid** holds the current gains, **high** lets Vireo adjust. AUX5 on the Air65 II.
+- **The pilot stays in charge.** A three-position switch: **low** reverts to your tune, **mid** holds the current gains, **high** lets Vireo adjust. The channel is set from the configurator (refused while armed).
 - **Everything it does is logged.** Each tuning step, and every tenth set of model inputs, goes into the blackbox with a checksum, so a flight can be replayed and Vireo's decisions checked afterwards. NexusGround shows them in a Vireo panel.
 
 **Vireo v8 in simulation:** closed-loop tuning error reduced from 0.436 to 0.245 octaves, oscillation-risk detection AUC 0.95 to 0.99 across the three axes, and P/D gain error of 0.122 octaves against a 0.12 accuracy gate, so v8 sits just above the gate and training continues. In SITL it improved the tune in 15 of 24 test flights and stayed safe in all of them. `nxtune-check` runs every trained model through the exact firmware kernel and gates it on accuracy, risk detection and parity with Oxiryn's own outputs before it can be built in.
 
-**Next:** fly the Air65 II with the switch low until the drop under hard flips is understood, then switch Vireo on for short, logged flights and compare its changes against the pilot's tune.
+### Vireo flight results
+
+> **Flight data coming soon.** Vireo has been flight-tested on the Air65 II Championship Edition. Logged results (Vireo's gain changes against the pilot's own tune, tracking error before and after, and supervisor events) will be published here.
+
+**Next:** publish the flight results above, keep training Vireo in Oxiryn past the P/D accuracy gate, and split the fallback gain designer across loop passes.
 
 ---
 
@@ -267,15 +283,15 @@ NexusGround's auto-tune already designs PID gains from blackbox logs on the grou
   <img src="https://img.shields.io/badge/Download-Fast%20streaming-2ea44f?style=for-the-badge" alt="Fast streaming download">
 </p>
 
-On boards with a blackbox flash chip, NexusFlight now logs to it. The Air65 II's chip is 16 MB (128 Mbit); NexusFlight reads its size from the chip's JEDEC ID rather than assuming it.
+On boards with a blackbox flash chip, NexusFlight logs every flight to it. The Air65 II's chip is 16 MB (128 Mbit); NexusFlight reads its size from the chip's JEDEC ID rather than assuming it.
 
-- **What's recorded:** 1 kHz frames (the pilot's 1/4 logging rate on the Air65 II) with raw and filtered gyro, setpoint, separated PID terms, motor outputs, battery, RSSI, CPU and loop time, plus **Vireo's tuning record** (each tuning step, and every tenth set of model inputs, each with a CRC). About 51 KB/s, so a 16 MB chip holds roughly five minutes of flying.
+- **What's recorded:** 1 kHz frames (the pilot's 1/4 logging rate on the Air65 II) with raw and filtered gyro, setpoint, separated PID terms, motor outputs, battery, RSSI, CPU and loop time, link quality and RF mode, DShot and receiver error counts, per-motor eRPM, the longest task poll and cycle-counter timestamps (which is how the in-flight freeze was found), plus **Vireo's tuning record** (each tuning step, and every tenth set of model inputs, each with a CRC). About 51 KB/s, so a 16 MB chip holds roughly five minutes of flying.
 - **Written in the background:** frames go to the chip by DMA on their own SPI bus, so logging doesn't hold up the flight loop. New logs are appended after any existing ones; the chip is never erased automatically.
 - **Doesn't fill itself on the bench:** logging stops after a failsafe landing, so a quad left powered on USB with no receiver link no longer writes failsafe frames until the chip is full. (That is what cost us the log of the first flight.)
-- **Fast download:** NexusGround pulls the whole chip in 1 MB pieces with a single streaming MSP v2 request per piece (`MSP_DATAFLASH_DUMP`), each checked with a CRC-32. The old page-by-page read took about 17 minutes for a full chip; the streaming path answers on hardware, and its speed on a full chip is being measured next. NexusGround falls back to the old read on firmware without it.
+- **Fast download:** NexusGround pulls the whole chip in 1 MB pieces with a single streaming MSP v2 request per piece (`MSP_DATAFLASH_DUMP`), each checked with a CRC-32. The old page-by-page read took about 17 minutes for a full chip; the streaming read is how the Air65 II's flight logs are pulled now. NexusGround falls back to the old read on firmware without it.
 - **Decoding:** NexusGround's blackbox explorer decodes the chip's log format directly and shows Vireo's tuning record alongside the flight data. A command-line tool splits a download into `.bbl` and `.csv` files, with a separate CSV for Vireo.
 
-**Verified on hardware:** chip detected at 16 MB, full erase (about 26 s), empty-chip readback and the fast-download command answering. **Not yet confirmed on hardware:** a complete in-flight log downloaded and decoded.
+**Verified on hardware:** chip detected at 16 MB, full erase (about 26 s), in-flight logging over many flights, and fast download and decoding of those logs.
 
 ---
 
@@ -378,7 +394,7 @@ One firmware image per board, built with that board's pin map. Flash through Nex
 
 > **G473 boards on v0.3.3:** bringing up the Air65 II found bugs in the STM32G473 target that each stop it on real hardware, including DShot output that never reaches the motors (wrong DMA request), missing ADC clock and boost mode, and flash erase on the wrong pages. **Do not use the v0.3.3 G473 images**; the fixes will be in the next release.
 
-> **BETAFPV Air65 II / Air75 II owners:** the `betafpv_g473` image in v0.3.3 is for the **first** BETAFPV G473 board revision and uses different pins. **Do not flash it to a Matrix 1S 5IN1 II.** That board gets its own target, `betafpv_g473_v2`. The Air65 II build is not published yet; it will be released once the open issues above are understood and it has flown cleanly.
+> **BETAFPV Air65 II / Air75 II owners:** the `betafpv_g473` image in v0.3.3 is for the **first** BETAFPV G473 board revision and uses different pins. **Do not flash it to a Matrix 1S 5IN1 II.** That board gets its own target, `betafpv_g473_v2`. The Air65 II Championship Edition build is not published yet; it will come with the next release.
 
 ### NexusCore (Library)
 
@@ -405,7 +421,7 @@ nexus-core = { git = "https://github.com/AutomataNexus/NexusFlight.git", branch 
 - **Flight modes**: Acro, Angle, Horizon, Position Hold, Waypoint Mission, Turtle (flip-over-after-crash), Launch Control, with Betaflight-style AUX mode ranges
 - **Protocol support**: MSP v2, CRSF/ELRS (with telemetry back to the radio), S.BUS, DShot (150/300/600), SmartAudio, Tramp IRC, UBX GPS
 - **Bidirectional DShot**: real-time eRPM telemetry via GCR decoding, RPM filter and dynamic notch
-- **OSD**: MAX7456/AT7456E analog with Betaflight font symbols and a post-flight stats screen, plus MSP DisplayPort digital (DJI/HDZero/Walksnail)
+- **OSD**: MAX7456/AT7456E analog (hardware or software SPI) with Betaflight font symbols, a post-flight stats screen and the NexusFlight boot logo, plus MSP DisplayPort digital (DJI/HDZero/Walksnail)
 - **Blackbox**: to internal flash, or to an SPI flash chip with DMA writes and fast streaming download (see [Blackbox](#blackbox-on-the-flash-chip))
 - **Safety**: staged failsafe (hold, ramp, disarm), arming pre-checks, watchdog, stack guard, hard fault handler, boot guard, DShot beacons on receiver loss
 
@@ -493,7 +509,7 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
 
 ## Supported Hardware
 
-NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 families. The BETAFPV Air65 II board is the 30th target, in development builds, and the **only board that has flown** (see [above](#-currently-developing-betafpv-air65-ii)). **No board is marked flight-proven yet.**
+NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 families. The BETAFPV Air65 II Championship Edition board is the 30th target, in development builds, and the **only board that has flown**; the others are being brought up separately (see [above](#-currently-developing-betafpv-air65-ii-championship-edition)). **No board is marked flight-proven yet.**
 
 | MCU Family | Clock | Boards | Status |
 |------------|-------|--------|--------|
@@ -501,7 +517,7 @@ NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 fam
 | **STM32F411** | 96 MHz | BETAFPV F411, HDZero AIO5, Happymodel CrazyBee F4 DX, T-Motor F411, GEPRC Taker F411 | T-Motor F411 bring-up parked |
 | **STM32F722** | 216 MHz | Flywoo F722 Pro V2, GEPRC F722 AIO | Builds, awaiting hardware test |
 | **STM32G473** | 170 MHz | Happymodel CrazyBee G473, BETAFPV G473, GEPRC Taker G473 AIO, HDZero Gamma 45A, HDZero AIO15 | Builds; the G4 fixes from the Air65 II apply to all of these. Awaiting hardware test |
-| **STM32G473/G474** | 170 MHz | 📌 **BETAFPV Air65 II / Matrix 1S 5IN1 II** (`betafpv_g473_v2`) | **First flight 2026-11-23.** Open: OSD, one motor or receiver drop under hard flips |
+| **STM32G473/G474** | 170 MHz | 📌 **BETAFPV Air65 II Championship Edition / Matrix 1S 5IN1 II** (`betafpv_g473_v2`) | **Flying, all features of its build operational.** Vireo flight-tested |
 | **STM32H743** | 480 MHz | HDZero Halo, GEPRC Taker H743, Sequre H7 V1/V2, Matek H743, T-Motor Pacer H743, iFlight Blitz H7 Pro | Builds, awaiting hardware test |
 | **AT32F435** | 288 MHz | iFlight Blitz F4 F435 | Configurator board database only; no firmware target yet |
 
@@ -519,7 +535,7 @@ NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 fam
 
 | Gyro | Driver | Notes |
 |------|--------|-------|
-| Bosch BMI270 | ✓ | Full Bosch configuration blob loaded at boot. Verified on hardware (Air65 II) |
+| Bosch BMI270 | ✓ | Full Bosch configuration blob loaded at boot. Flying on the Air65 II Championship Edition |
 | TDK ICM-42688-P | ✓ | |
 | TDK ICM-42622-P | ✓ | Handled by the ICM-42688 driver. Not yet seen on hardware |
 | ST LSM6DSK320X | ✓ | Driver fitted to some Air65 II batches. Not yet seen on hardware |
@@ -650,14 +666,15 @@ Hot-path benchmarks (Criterion, Cortex-M7 equivalent):
 ## Roadmap to Beta
 
 1. ✅ **Air65 II first flash and first flight**: NexusFlight flashed with no BOOT button, armed and flown on 2026-11-23.
-2. **📌 Find the in-flight drop** (now): a logged flight in ANGLE with Vireo off, fast blackbox download, and a look at failsafe state, link quality, motor outputs and loop time at the moment it happens.
-3. **📌 OSD in the goggles** (now), then the **NexusFlight boot logo** on the OSD.
-4. **Confirm the rest of the Air65 II build on hardware**: bidirectional DShot eRPM and the RPM filter, turtle, beeper, pit mode, CRSF telemetry, current sensor, stats screen.
-5. **Vireo in flight**: short, logged flights with the tune switch on, compared against the pilot's own tune, before NexusTune is offered as an opt-in feature.
-6. **NexusGround redesign release**, with the Air65 II build bundled.
-7. **CoreDrive-8051 bench test** on one Air65 II ESC, with all four stock ESCs already backed up.
-8. **T-Motor F411 AIO recovery**, and the boot guard, gyro auto-detect and board alignment on the F7 and H7 targets.
-9. **Beta releases**.
+2. ✅ **In-flight freeze found and fixed**: the 845 ms gain-designer stall, traced from blackbox logs.
+3. ✅ **OSD in the goggles** with the **NexusFlight boot logo**.
+4. ✅ **Every feature of the Air65 II build working on hardware**: modes, turtle, beeper, pit mode, RPM filter on bidirectional DShot, CRSF telemetry, current sensor, stats screen, blackbox.
+5. ✅ **Vireo in flight**: flight-tested and operational on the Air65 II Championship Edition.
+6. **📌 Vireo flight results** (next): publish the logged data in this README, and split the fallback gain designer across loop passes.
+7. **Other boards** (in progress separately): T-Motor F411 AIO recovery, and the boot guard, gyro auto-detect and board alignment on the F7 and H7 targets.
+8. **NexusGround redesign release**, with the Air65 II build bundled.
+9. **CoreDrive-8051 bench test** on one Air65 II ESC, with all four stock ESCs already backed up.
+10. **Beta releases**.
 
 ---
 

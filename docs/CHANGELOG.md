@@ -8,6 +8,16 @@ Nothing in this section is in a published release yet. Each item says how far it
 
 ### NexusFlight Firmware (development builds)
 
+**Air65 II Championship Edition: all features operational (later on 2026-11-23)**
+- Our pilot reports every feature of the Air65 II build working in flight: flight modes, turtle, beeper, pit mode, RPM filter on bidirectional DShot, CRSF telemetry, current sensor, OSD and stats screen, blackbox.
+- **In-flight freeze fixed.** Blackbox logs with per-task timing and cycle-counter timestamps showed the flight loop stalling for about 845 ms (three times in 13 flights, and in each crash), long enough for the ESCs to drop out. The cause was NexusTune's onboard gain designer running inside the flight loop while armed, whatever the tune switch said. It now runs only when tuning is on with no Vireo model loaded. Desyncs and freezes are gone.
+- **OSD live** on software SPI (the fault was in our hardware SPI setup, not the chip), with the **NexusFlight boot logo** written to the OSD chip's font memory while disarmed. OSD background boxes off by default.
+- **Vireo flight-tested and operational.** Flight data will be published in the README.
+- Receiver UART on a DMA ring, so CRSF frames are no longer cut short.
+- Blackbox frames carry link quality, RF mode, DShot and receiver error counts, eRPM and task timing; decoder fixed to accept them.
+- Configurator command to set the NexusTune switch channel (refused while armed).
+- The earlier "first flight" notes below are kept for the record; the open issues they list are fixed.
+
 **BETAFPV Air65 II (`betafpv_g473_v2`, Matrix 1S 5IN1 II): first flight**
 - Flashed to two Air65 II quads over USB with no BOOT button, every flash read back and checked.
 - **First flight on 2026-11-23**, props on, on stock Bluejay ESCs. It flew well through normal flying. During hard flips and a punch into a 180° turn it lost a motor or its receiver link and crashed. **Cause unknown**; that flight was not logged (see Blackbox below).
