@@ -489,10 +489,10 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
 ### NexusGround Configurator
 
 <p align="center">
-  <img src="assets/screenshots/nexusground-setup.png" alt="NexusGround Setup tab, light theme: the Air65 II (craft VIREO) connected on USB with the live 3D attitude view, Ready to arm, loop and CPU, craft name and board details" width="880" />
+  <img src="assets/screenshots/nexusground-setup.png" alt="NexusGround Setup tab, light theme: the Air65 II (craft VIREO) connected on USB with the live 3D attitude view, arming checks, loop and CPU, craft name and board details" width="880" />
 </p>
 <p align="center">
-  <img src="assets/screenshots/nexusground-nexustune-dark.png" alt="NexusGround NexusTune tab, dark theme: Vireo model loaded, its state and confidence, and the table of learned gains waiting to be saved next to the gains on the FC" width="49%" />
+  <img src="assets/screenshots/nexusground-nexustune-dark.png" alt="NexusGround NexusTune tab, dark theme: Vireo model loaded with its state and confidence, the learned-gains check, and the blackbox analyser with a flight log loaded" width="49%" />
   &nbsp;
   <img src="assets/screenshots/nexusground-blackbox.png" alt="NexusGround Blackbox tab, light theme: the log explorer plotting gyro, setpoint and motor traces from a NexusFlight flight log with Vireo's tuning record" width="49%" />
 </p>
@@ -500,7 +500,7 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
   <tr>
     <td width="33%"><img src="assets/screenshots/nexusground-pid.png" alt="NexusGround PID Tuning tab, light theme: roll, pitch and yaw P, I and D sliders with the gain balance panel" /></td>
     <td width="33%"><img src="assets/screenshots/nexusground-rates-dark.png" alt="NexusGround Rates tab, dark theme: Betaflight Actual rates curve, 90 deg/s centre, 810 deg/s max, expo 0.75" /></td>
-    <td width="33%"><img src="assets/screenshots/nexusground-motors-dark.png" alt="NexusGround Motors tab, dark theme: Quad X layout with props out and the safe motor test" /></td>
+    <td width="33%"><img src="assets/screenshots/nexusground-motors-dark.png" alt="NexusGround Motors tab, dark theme: Quad X layout with props out, motor config and the safe motor test" /></td>
   </tr>
   <tr>
     <td align="center"><sub>PID Tuning</sub></td>
@@ -509,8 +509,8 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
   </tr>
   <tr>
     <td><img src="assets/screenshots/nexusground-esc.png" alt="NexusGround ESC page, light theme: four CoreDrive-8051 ESCs read over the 4-way passthrough with their settings" /></td>
-    <td><img src="assets/screenshots/nexusground-osd-dark.png" alt="NexusGround OSD tab, dark theme: layout editor with the craft name and the NexusTune bird and TUNE indicator" /></td>
-    <td><img src="assets/screenshots/nexusground-link-assist.png" alt="NexusGround Link Assist page, light theme: USB devices, the driver each uses and a one-click fix" /></td>
+    <td><img src="assets/screenshots/nexusground-osd-dark.png" alt="NexusGround OSD tab, dark theme: layout editor with the craft's layout, including the NexusTune bird and TUNE indicator" /></td>
+    <td><img src="assets/screenshots/nexusground-link-assist.png" alt="NexusGround Link Assist page, light theme: the flight controller's USB serial device and its driver" /></td>
   </tr>
   <tr>
     <td align="center"><sub>ESC / CoreDrive</sub></td>
@@ -518,7 +518,7 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
     <td align="center"><sub>Link Assist</sub></td>
   </tr>
 </table>
-<p align="center"><sub>The redesigned NexusGround (development build) with an Air65 II's configuration, craft name VIREO. The Blackbox explorer is plotting a real NexusFlight flight log.</sub></p>
+<p align="center"><sub>The redesigned NexusGround (development build) connected live to an Air65 II (craft VIREO) on USB power only, so no battery, radio or ESCs. The Blackbox explorer is plotting a real NexusFlight flight log.</sub></p>
 
 **New in the redesign (development build, not yet released):**
 
