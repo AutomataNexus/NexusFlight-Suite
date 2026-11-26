@@ -141,6 +141,25 @@ The OSD problem turned out to be in our hardware SPI setup, not the chip: driven
 - **Bench results, same quad, same motors, props off:** per-motor DShot telemetry errors at or below 0.4 %, against 4 % above half throttle and up to 27 % at throttle steps for stock Bluejay. Top speed is the same as Bluejay (about 510k eRPM unloaded).
 - Developed against our whole-board ESC simulator (`efm8sim`): every scenario passes on the common layouts before anything is flashed.
 
+### Benchmark: DShot telemetry, CoreDrive vs Bluejay
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/benchmarks/esc-telemetry-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/benchmarks/esc-telemetry-light.svg">
+    <img alt="Bidirectional DShot telemetry replies lost, CoreDrive vs Bluejay, 10-80 % throttle" src="assets/benchmarks/esc-telemetry-light.png" width="900">
+  </picture>
+</p>
+
+The flight controller's RPM filter is only as good as the eRPM telemetry coming back from the ESCs. Same quad, same NexusFlight flight controller and decoder, props off, 10 to 80 % throttle in 3 s steps:
+
+| | Steady, below 50 % | Steady, 60-80 % | Worst moment (at each throttle change) |
+|---|---|---|---|
+| **CoreDrive-8051** | 0.0-0.1 % lost | 0.0-0.1 % lost | **at most 0.3 %** |
+| Bluejay 0.19.2 (stock) | 0.0-0.2 % lost | 3.7-4.2 % lost | **26-28 %** |
+
+Top speed is the same on both (about 510k eRPM unloaded). Flight benchmarks against Betaflight + Bluejay, with matched flights on this same quad, are next.
+
 ---
 
 ## Project Status
