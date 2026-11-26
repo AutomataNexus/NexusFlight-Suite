@@ -2,9 +2,22 @@
 
 All notable changes to NexusFlight Suite will be documented in this file.
 
-## [Unreleased] — development builds, 2026-11-23
+## [Unreleased] — development builds, 2026-11-26
 
 Nothing in this section is in a published release yet. Each item says how far it has been tested.
+
+### 2026-11-26
+- **Fallback gain designer removed from the flight controller** (the source of the old 845 ms stall); Vireo inference overrun bounded. Flashed, bench-checked; flight next.
+- **Vireo on AUX5**, sharing the control-stack switch (high when arming = PID stack and tuning). **OSD tune indicator**: a vireo + `TUNE` / `TUNE OK` / `TUNE ABORT`. Learned gains are pending until accepted or discarded in NexusGround.
+- **New OSD boot logo**: the NexusFlight wordmark with the vireo.
+- Config changes, saves and accelerometer calibration are never applied while armed; saves are confirmed only after the flash write; reset restores the board's defaults.
+- Rate changes from NexusGround now save (the FC was refusing them); saved values read back unchanged.
+- NexusGround (development build): every page checked end to end against the FC; safer ESC flashing and restore; motor stop always last; quick blackbox erase; new vireo app icon.
+
+### 2026-11-25
+- **Full stack flying:** CoreDrive-8051 flashed to all four Air65 II ESCs (backed up, written in a bootloader-safe order, read back) and flown with NexusFlight. Pilot: "buttery, punchy, smooth", untuned.
+- Bidirectional DShot telemetry on CoreDrive: at or below 0.4 % errors per motor on the bench, against 4-27 % for stock Bluejay on the same quad; same top speed.
+
 
 ### NexusFlight Firmware (development builds)
 
