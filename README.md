@@ -489,7 +489,7 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
 ### NexusGround Configurator
 
 <p align="center">
-  <img src="assets/screenshots/nexusground-setup.png" alt="NexusGround Setup tab, light theme: the Air65 II (craft VIREO) connected on USB with the live 3D attitude view, arming checks, loop and CPU, craft name and board details" width="880" />
+  <img src="assets/screenshots/nexusground-setup.png" alt="NexusGround Setup tab, light theme: the Air65 II (craft VIREO) connected on USB with the live 3D attitude view, Ready to arm, loop and CPU, craft name and board details" width="880" />
 </p>
 <p align="center">
   <img src="assets/screenshots/nexusground-nexustune-dark.png" alt="NexusGround NexusTune tab, dark theme: Vireo model loaded with its state and confidence, the learned-gains check, and the blackbox analyser with a flight log loaded" width="49%" />
@@ -518,7 +518,7 @@ Recommended for every first flash: **props off**, save the stock CLI `dump` and 
     <td align="center"><sub>Link Assist</sub></td>
   </tr>
 </table>
-<p align="center"><sub>The redesigned NexusGround (development build) connected live to an Air65 II (craft VIREO) on USB power only, so no battery, radio or ESCs. The Blackbox explorer is plotting a real NexusFlight flight log.</sub></p>
+<p align="center"><sub>The redesigned NexusGround (development build) connected live to an Air65 II (craft VIREO) on the bench, battery in, props off, radio on. The ESC page shows the CoreDrive-8051 settings layout, not a live read. The Blackbox explorer is plotting a real NexusFlight flight log.</sub></p>
 
 **New in the redesign (development build, not yet released):**
 
