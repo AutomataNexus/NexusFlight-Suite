@@ -1,5 +1,9 @@
 <p align="center">
-  <img src="assets/brand/NexusFlightLogo.png" alt="NexusFlight Logo" width="720" />
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/brand/nexusflight-readme-dark.svg">
+    <source media="(prefers-color-scheme: light)" srcset="assets/brand/nexusflight-readme-light.svg">
+    <img alt="NexusFlight" src="assets/brand/nexusflight-readme-light.svg" width="720">
+  </picture>
 </p>
 
 <h1 align="center">NexusFlight Suite</h1>
@@ -37,7 +41,7 @@
   &nbsp;
   <img src="https://img.shields.io/badge/CoreDrive_FOC-v0.3.2-E34F26?style=flat-square&logo=hackthebox&logoColor=white" alt="CoreDrive v0.3.2">
   &nbsp;
-  <img src="https://img.shields.io/badge/CoreDrive--8051-sim%20tested-E34F26?style=flat-square" alt="CoreDrive-8051 simulator tested">
+  <img src="https://img.shields.io/badge/CoreDrive--8051-flying%20on%20all%204%20ESCs-2ea44f?style=flat-square" alt="CoreDrive-8051 flying on all four ESCs">
   &nbsp;
   <img src="https://img.shields.io/badge/NexusGround-v0.4.3%20release%20%C2%B7%20redesign%20in%20dev-47848F?style=flat-square&logo=tauri&logoColor=white" alt="NexusGround v0.4.3, redesign in development">
   &nbsp;
@@ -82,7 +86,7 @@
   <img src="https://img.shields.io/badge/ESC-EFM8BB51-E34F26?style=for-the-badge" alt="ESC EFM8BB51">
 </p>
 
-> **NexusFlight flies the Air65 II Championship Edition, with every feature of its build working.** The first flight was on 23 November 2026. Since then the in-flight freezes that caused motor and receiver drops under hard flying have been traced and fixed, the analog OSD is live in the goggles with the NexusFlight boot logo, and our pilot reports every feature of the Air65 II build operational in flight. That includes the **Vireo in-flight tuner, which has been flight-tested and is operational** (see [NexusTune](#nexustune--in-flight-ai-tuning)). The ESCs still run their stock Bluejay firmware, since CoreDrive-8051 has only run in our simulator. The other supported boards are being brought up separately; none of them has flown yet.
+> **NexusFlight flies the Air65 II Championship Edition, with every feature of its build working.** The first flight was on 23 November 2026. Since then the in-flight freezes that caused motor and receiver drops under hard flying have been traced and fixed, the analog OSD is live in the goggles with the NexusFlight boot logo, and our pilot reports every feature of the Air65 II build operational in flight. That includes the **Vireo in-flight tuner, which has been flight-tested and is operational** (see [NexusTune](#nexustune--in-flight-ai-tuning)). **Since 25 November 2026 the whole stack is ours: NexusFlight on the flight controller and CoreDrive-8051 on all four ESCs**, configured from NexusGround, flown and reported "buttery, punchy, smooth" before any tuning. The other supported boards are being brought up separately; none of them has flown yet.
 
 The Air65 II Championship Edition is a 65 mm 1S whoop. Its flight controller and ESCs sit on one AIO board, the **BETAFPV Matrix 1S 5IN1 II** (12A), which also carries the receiver, VTX, OSD and a 16 MB flash chip. That makes it a complete test of NexusFlight's "FC and ESC as one system" idea on a single board.
 
@@ -119,7 +123,9 @@ The Air65 II Championship Edition is a 65 mm 1S whoop. Its flight controller and
 
 The OSD problem turned out to be in our hardware SPI setup, not the chip: driven by hand, the same pins answered correctly. NexusFlight now drives the AT7456E over software SPI, and the OSD has worked since.
 
-**Next on this board:** publish Vireo's flight results (see [Vireo flight results](#vireo-flight-results)), and split the fallback gain designer across loop passes so it can never stall the flight loop even without a model loaded. The background boxes behind OSD elements are now off by default, at our pilot's request.
+**Since then (26 November):** the fallback gain designer is gone from the flight controller altogether, so it can never stall the flight loop, with or without a Vireo model. Vireo now shares AUX5 with the control-stack switch and shows a vireo + `TUNE` indicator on the OSD while it works. Learned gains are only kept when the pilot accepts them in NexusGround. Config changes, saves and calibration are never applied while armed. These changes are flashed and bench-checked, and fly next.
+
+**Next on this board:** a fully tuned pack on the full stack, then publish Vireo's flight results (see [Vireo flight results](#vireo-flight-results)). The background boxes behind OSD elements are off by default, at our pilot's request.
 
 ### The ESCs: CoreDrive-8051 on the onboard 12A ESCs
 
@@ -130,10 +136,10 @@ The OSD problem turned out to be in our hardware SPI setup, not the chip: driven
 | **Stock firmware** | Bluejay 0.19.2, layout tag `#A_X_05#`, 96 kHz PWM |
 | **CoreDrive build** | **CoreDrive-8051**, layout **A_X_05**, matching the board |
 
-- CoreDrive-8051 is CoreDrive for 8-bit ESCs: C (SDCC) with an 8051 assembly commutation core, built on the Bluejay six-step design and FC-compatible with it (DShot300/600, bidirectional DShot with extended telemetry, same settings layout).
-- In our whole-board ESC simulator (`efm8sim`) it passes all 19 test scenarios on each of the five common layouts A to E, including standstill starts straight into 30% and 100% throttle.
-- All four stock ESCs on our Air65 II have been backed up read-only through the flight controller, so the stock Bluejay image can be restored exactly.
-- **Status: sim-tested only, never flashed to a real ESC.** ESC work is on hold until the flight controller side is solid. The first NexusFlight flight was flown on the stock Bluejay ESCs.
+- CoreDrive-8051 is CoreDrive for 8-bit ESCs, written in Rust with hand-timed 8051 assembly where the timing requires it. It is built on the Bluejay six-step design and stays FC-compatible with it (DShot300/600, bidirectional DShot with extended telemetry, same settings layout).
+- **Flying on all four ESCs of our Air65 II since 2026-11-25.** It is flashed through the flight controller in a bootloader-safe order: each ESC is backed up first (read twice), written, and fully read back. The stock Bluejay image can be restored exactly from those backups.
+- **Bench results, same quad, same motors, props off:** per-motor DShot telemetry errors at or below 0.4 %, against 4 % above half throttle and up to 27 % at throttle steps for stock Bluejay. Top speed is the same as Bluejay (about 510k eRPM unloaded).
+- Developed against our whole-board ESC simulator (`efm8sim`): every scenario passes on the common layouts before anything is flashed.
 
 ---
 
@@ -151,7 +157,7 @@ The OSD problem turned out to be in our hardware SPI setup, not the chip: driven
 | Blackbox | in the Air65 II build | Records every flight to the board's 16 MB flash at 1 kHz, downloaded with the fast streaming read. Verified on hardware; these logs found the in-flight freeze. See [Blackbox](#blackbox-on-the-flash-chip). |
 | NexusGround configurator | v0.4.3 release; redesign in development | Released v0.4.3 installers for Windows and Linux. The **teal, graphite and cream redesign** runs on Windows as a development build; not yet released. See [NexusGround](#nexusground-configurator). |
 | CoreDrive FOC ESC firmware (32-bit) | v0.3.2 | 245 ESC board configs, 4 MCU families. Host-tested, not yet run on a real ESC. |
-| CoreDrive-8051 (8-bit EFM8BB51) | in development, on hold | Target: the Air65 II's 12A ESCs (layout A_X_05). 19 of 19 simulator scenarios pass on layouts A to E. Stock ESCs backed up. Never flashed. |
+| CoreDrive-8051 (8-bit EFM8BB51) | **flying** | On all four of the Air65 II's 12A ESCs (layout A_X_05) since 2026-11-25. DShot telemetry errors at or below 0.4 % per motor on the bench (stock Bluejay: 4-27 %). Stock ESC images backed up and restorable. |
 | Oxiryn (ML framework) | onboard | Trains Vireo and exports the int8 weights the FC runs. Runs on the training machine, not on the aircraft. |
 | T-Motor F411 AIO | parked | Bench bring-up paused; the board needs one manual entry into its ROM bootloader to take a fixed image. |
 
@@ -178,13 +184,13 @@ These are open on the Air65 II Championship Edition right now.
 
 | Issue | State |
 |---|---|
-| Fallback gain designer runs in one loop pass. | With a Vireo model loaded it never runs. Without a model, tuning would still run the onboard gain designer inside one loop pass, so tuning without a model must not be flown until the designer is split across loop passes. |
+| Motor 1 on our test quad turns 6-8 % slower than the others. | The same on stock Bluejay and on CoreDrive, so it is the motor, not the firmware. |
 | Betaflight Configurator does not connect (MSP v1). | NexusGround (MSP v2) works. Low priority. |
 | The FC reports a 4 kHz loop to the configurator while it runs at the gyro's 3.2 kHz. | Cosmetic. |
 | Analog OSD colours. | The AT7456E can only draw white or black text, with or without a grey background. The teal, grey and cream OSD colours apply to NexusGround's OSD preview and to digital (DisplayPort) systems. |
 | Other boards. | Only the Air65 II has flown. The other boards are being brought up separately. |
 
-**Fixed and confirmed on the Air65 II:** the motor or receiver drops and freezes under hard flying (the 845 ms gain-designer stall), and the missing OSD (now on software SPI).
+**Fixed and confirmed on the Air65 II:** the motor or receiver drops and freezes under hard flying (the 845 ms gain-designer stall), and the missing OSD (now on software SPI). **Fixed on 2026-11-26:** the fallback gain designer has been removed from the flight controller entirely, and rate changes from NexusGround now save (they were being refused).
 
 ---
 
@@ -249,7 +255,7 @@ NexusGround's auto-tune already designs PID gains from blackbox logs on the grou
 
 > **Flight data coming soon.** Vireo has been flight-tested on the Air65 II Championship Edition. Logged results (Vireo's gain changes against the pilot's own tune, tracking error before and after, and supervisor events) will be published here.
 
-**Next:** publish the flight results above, keep training Vireo in Oxiryn past the P/D accuracy gate, and split the fallback gain designer across loop passes.
+**Next:** publish the flight results above and keep training Vireo in Oxiryn past the P/D accuracy gate. The fallback gain designer has been removed from the flight controller, so a missing or rejected model simply means no tuning.
 
 ---
 
@@ -340,17 +346,17 @@ Each axis has its own **PI controller** with independently tunable Kp/Ki gains. 
 ### CoreDrive-8051 — for 8-bit whoop ESCs
 
 <p align="center">
-  <img src="https://img.shields.io/badge/STATUS-Simulator%20tested%2C%20on%20hold-E34F26?style=for-the-badge" alt="Simulator tested, on hold">
+  <img src="https://img.shields.io/badge/STATUS-Flying%20on%20all%204%20ESCs-2ea44f?style=for-the-badge" alt="Flying on all four ESCs">
 </p>
 
 Most 1S whoop AIO boards, including the **BETAFPV Air65 II's Matrix 1S 5IN1 II**, drive their motors from separate 8-bit **Silicon Labs EFM8BB51** chips (8051 core) that the Rust CoreDrive targets can't run on. **CoreDrive-8051** is CoreDrive for those chips.
 
-- Written in **C (SDCC) with an 8051 assembly commutation core**, built on the proven Bluejay six-step design and its timing constants, and FC-compatible with it: DShot300/600, bidirectional DShot with extended telemetry, the same settings layout and layout tags.
+- Written in **Rust, with hand-timed 8051 assembly where the timing requires it**, built on the proven Bluejay six-step design and its timing constants, and FC-compatible with it: DShot300/600, bidirectional DShot with extended telemetry, the same settings layout and layout tags.
 - First target: the Air65 II's 12A ESCs, layout **A_X_05**, with BETAFPV's stock startup power, beep and temperature settings as defaults.
 - Developed against a **whole-board simulator** (`efm8sim`) that models the MCU, gate driver, motor and DShot input. **All 19 test scenarios pass on each of the five common layouts (A to E)**, including standstill starts straight into 30% and 100% throttle on every motor KV tested. The stock Bluejay image also runs in the simulator, so the two can be compared directly.
 - The simulator found two edge-case fixes over the upstream design: overflow-safe PWM register write order, and correct dead time at 100% duty (the stock image shows the shoot-through that CoreDrive-8051 fixes).
-- Comes with a **read-only ESC backup tool** that saves all four stock ESCs through the flight controller before anything is changed. Our Air65 II's four ESCs are backed up.
-- **Status: sim-tested only, never flashed to hardware.** On hold while the flight controller side is brought up. The first bench test will be one ESC on the Air65 II, props off.
+- Comes with an **ESC tool** that backs up, flashes and restores ESCs through the flight controller, in an order that cannot leave an ESC without a working bootloader path. Our Air65 II's four stock ESCs are backed up.
+- **Status: flying on all four ESCs of the Air65 II since 2026-11-25.** On the bench its DShot telemetry is cleaner than stock Bluejay (at or below 0.4 % errors against 4-27 %), with the same top speed.
 
 ### FOC + NexusFlight = Tighter Loop
 
@@ -527,7 +533,7 @@ NexusFlight v0.3.3 builds for **29 flight controller boards** across 5 STM32 fam
 
 | ESC | MCU | Firmware | Status |
 |-----|-----|----------|--------|
-| 📌 **BETAFPV Matrix 1S 5IN1 II, 4 × 12A** (Air65 II) | EFM8BB51 (8051) | Stock Bluejay 0.19.2 today; **CoreDrive-8051**, layout A_X_05, in development | NexusFlight has flown on the stock Bluejay ESCs. CoreDrive-8051: simulator tested, never flashed |
+| 📌 **BETAFPV Matrix 1S 5IN1 II, 4 × 12A** (Air65 II) | EFM8BB51 (8051) | **CoreDrive-8051**, layout A_X_05 (stock Bluejay 0.19.2 backed up) | **Flying**: NexusFlight + CoreDrive-8051 on all four ESCs since 2026-11-25 |
 | Other EFM8BB51 Bluejay layouts A to E | EFM8BB51 (8051) | CoreDrive-8051 | Build and pass the simulator, no hardware target yet |
 | 245 32-bit ESC board configs | STM32G071, STM32F051, GD32E230, AT32F421 and more | CoreDrive (FOC / six-step) | Host-tested, not yet run on a real ESC |
 
@@ -670,10 +676,12 @@ Hot-path benchmarks (Criterion, Cortex-M7 equivalent):
 3. ✅ **OSD in the goggles** with the **NexusFlight boot logo**.
 4. ✅ **Every feature of the Air65 II build working on hardware**: modes, turtle, beeper, pit mode, RPM filter on bidirectional DShot, CRSF telemetry, current sensor, stats screen, blackbox.
 5. ✅ **Vireo in flight**: flight-tested and operational on the Air65 II Championship Edition.
-6. **📌 Vireo flight results** (next): publish the logged data in this README, and split the fallback gain designer across loop passes.
-7. **Other boards** (in progress separately): T-Motor F411 AIO recovery, and the boot guard, gyro auto-detect and board alignment on the F7 and H7 targets.
-8. **NexusGround redesign release**, with the Air65 II build bundled.
-9. **CoreDrive-8051 bench test** on one Air65 II ESC, with all four stock ESCs already backed up.
+6. ✅ **Full stack flying**: NexusFlight + CoreDrive-8051 on all four ESCs, configured from NexusGround (2026-11-25).
+7. ✅ **Fallback gain designer removed from the flight controller**; Vireo on AUX5 with an OSD tune indicator and accept/discard of learned gains (flashed 2026-11-26).
+8. **📌 Fully tuned pack and Vireo flight results** (next): publish the logged data in this README.
+9. **Other boards** (in progress separately): T-Motor F411 AIO recovery, and the boot guard, gyro auto-detect and board alignment on the F7 and H7 targets.
+10. **NexusGround redesign release**, with the Air65 II build bundled, plus **Link Assist** (built-in USB/driver fixes) and our own update bootloader so quads connect and update with no third-party driver tools (in development).
+11. ✅ **CoreDrive-8051 on real ESCs**: bench-tested one ESC at a time, then all four, then flown.
 10. **Beta releases**.
 
 ---
