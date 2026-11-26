@@ -129,6 +129,10 @@ The OSD problem turned out to be in our hardware SPI setup, not the chip: driven
 
 ### The ESCs: CoreDrive-8051 on the onboard 12A ESCs
 
+<p align="center">
+  <img src="assets/brand/nexuscoredrive-logo-web.png" alt="NexusCoreDrive" width="640">
+</p>
+
 | | |
 |---|---|
 | **ESC** | 4 × 1S 12A, on the same Matrix 5IN1 II board |
