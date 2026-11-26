@@ -2,9 +2,21 @@
 
 All notable changes to NexusFlight Suite will be documented in this file.
 
-## [Unreleased] — development builds, 2026-11-26
+## [NexusGround 0.5.0 / NexusFlight 0.4.0 / CoreDrive-8051 0.4.0] - 2026-11-26
 
-Nothing in this section is in a published release yet. Each item says how far it has been tested.
+Three releases, published together on 2026-11-26. They are the builds running on our BETAFPV Air65 II Championship Edition. Each release carries a `SHA256SUMS` file.
+
+| Release | Build | File | SHA-256 |
+|---------|-------|------|---------|
+| [NexusGround 0.5.0](https://github.com/AutomataNexus/NexusFlight-Suite/releases/tag/nexusground-v0.5.0) | 32d4ff4 | `NexusGround_0.5.0_x64_portable.exe` (Windows 10/11, portable, needs WebView2) | `58dedb2b91c1ca63620f869407022e1ed2b6234c755bf51c2eacf78207d91443` |
+| [NexusFlight firmware 0.4.0](https://github.com/AutomataNexus/NexusFlight-Suite/releases/tag/nexusflight-v0.4.0) | 918f0d0 | `nexusflight-betafpv_g473_v2.bin` (Air65 II, Matrix 1S 5IN1 II only) | `4e526841cea8a491d82d6374b7c972e52c5787d21b629495bb0cd5eb75e9547c` |
+| [CoreDrive-8051 0.4.0](https://github.com/AutomataNexus/NexusFlight-Suite/releases/tag/coredrive-8051-v0.4.0) | c333237 | `coredrive-8051_A_X_05_96_v0.4.0.hex` (EFM8BB51, layout A_X_05) | `5a4b93fedc6dc5daf3cb5ae443403b356b3959f6a60b63c0e3a9986bc9475e05` |
+
+- **NexusGround 0.5.0** is the redesign, released for the first time. Windows only; Linux and macOS builds of 0.5.0 are not published yet. Its internal version string still says 0.4.3.
+- **NexusFlight 0.4.0** is for the BETAFPV Matrix 1S 5IN1 II (`betafpv_g473_v2`) only. It reports NXFC 0.3.3 over MSP; 0.4.0 is build 918f0d0. Flash it over the ROM DFU bootloader at 0x08000000 with the battery out. Other boards were not built or flown at this commit, so no images for them are in this release.
+- **CoreDrive-8051 0.4.0** is for the Air65 II's EFM8BB51 ESCs (layout A_X_05), flashed from NexusGround's ESC page through the flight controller.
+
+The entries below are the work that went into these builds, kept as written at the time. Each item says how far it was tested.
 
 ### 2026-11-26
 - **Fallback gain designer removed from the flight controller** (the source of the old 845 ms stall); Vireo inference overrun bounded. Flashed, bench-checked; flight next.
@@ -67,9 +79,9 @@ Nothing in this section is in a published release yet. Each item says how far it
 
 ### Coming next
 
-- Find the cause of the in-flight drop from a logged flight.
-- OSD in the goggles, then a NexusFlight boot logo on the OSD.
-- Confirm bidirectional DShot eRPM, the RPM filter and the remaining Air65 II features on hardware.
+- First Vireo tuning flight on this build, then a tune from blackbox logs.
+- NexusGround 0.5.0 for Linux and macOS.
+- NexusFlight images for the other supported boards once each has been built and flown at the current commit.
 
 ## [0.2.0 / 0.3.2] — 2026-02-18
 

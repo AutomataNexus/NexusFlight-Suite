@@ -35,7 +35,7 @@
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/NexusFlight-v0.3.3%20release%20%C2%B7%20dev%20builds%20flying-0078D4?style=flat-square&logo=drone&logoColor=white" alt="NexusFlight v0.3.3 release, development builds flying">
+  <img src="https://img.shields.io/badge/NexusFlight-v0.4.0%20release%20%C2%B7%20flying-0078D4?style=flat-square&logo=drone&logoColor=white" alt="NexusFlight v0.4.0 release, flying">
   &nbsp;
   <img src="https://img.shields.io/badge/Air65_II_Championship_Edition-all%20features%20flying-2ea44f?style=flat-square" alt="Air65 II Championship Edition: all features flying">
   &nbsp;
@@ -43,7 +43,7 @@
   &nbsp;
   <img src="https://img.shields.io/badge/CoreDrive--8051-flying%20on%20all%204%20ESCs-2ea44f?style=flat-square" alt="CoreDrive-8051 flying on all four ESCs">
   &nbsp;
-  <img src="https://img.shields.io/badge/NexusGround-v0.4.3%20release%20%C2%B7%20redesign%20in%20dev-47848F?style=flat-square&logo=tauri&logoColor=white" alt="NexusGround v0.4.3, redesign in development">
+  <img src="https://img.shields.io/badge/NexusGround-v0.5.0%20release%20%C2%B7%20redesign-47848F?style=flat-square&logo=tauri&logoColor=white" alt="NexusGround v0.5.0 release, the redesign">
   &nbsp;
   <img src="https://img.shields.io/badge/Vireo-v8%20flight%20tested-8E44AD?style=flat-square" alt="Vireo v8 flight tested">
   &nbsp;
@@ -170,11 +170,11 @@ Top speed is the same on both (about 510k eRPM unloaded). Flight benchmarks agai
 
 | Piece | Version | State |
 |-------|---------|-------|
-| NexusFlight FC firmware | v0.3.3 release; development builds since | 30 board targets build (29 released plus the Air65 II). **Flying on the Air65 II Championship Edition** since 2026-11-23. The other boards are being brought up separately; none has flown yet. |
+| NexusFlight FC firmware | v0.4.0 release (Air65 II only); v0.3.3 for the other boards | 30 board targets build (29 released plus the Air65 II). **Flying on the Air65 II Championship Edition** since 2026-11-23. The other boards are being brought up separately; none has flown yet. |
 | BETAFPV Air65 II Championship Edition (`betafpv_g473_v2`) | **flying** | All features of its build operational on hardware: flight modes, OSD with boot logo, receiver and telemetry, bidirectional DShot and RPM filter, VTX and pit mode, blackbox. The in-flight freezes are fixed. Vireo in-flight tuning flight-tested. See [Air65 II](#-currently-developing-betafpv-air65-ii-championship-edition). |
 | Vireo in-flight tuner (NexusTune) | Vireo v8, in the Air65 II build | **Flight-tested and operational** on the Air65 II Championship Edition, behind its tune switch at a 0.5 confidence gate, under the safety supervisor. Flight data coming to this README. See [NexusTune](#nexustune--in-flight-ai-tuning). |
 | Blackbox | in the Air65 II build | Records every flight to the board's 16 MB flash at 1 kHz, downloaded with the fast streaming read. Verified on hardware; these logs found the in-flight freeze. See [Blackbox](#blackbox-on-the-flash-chip). |
-| NexusGround configurator | v0.4.3 release; redesign in development | Released v0.4.3 installers for Windows and Linux. The **teal, graphite and cream redesign** runs on Windows as a development build; not yet released. See [NexusGround](#nexusground-configurator). |
+| NexusGround configurator | v0.5.0 release (Windows) | The **teal, graphite and cream redesign**, released as 0.5.0 for Windows (portable exe). The v0.4.3 Linux packages remain available. See [NexusGround](#nexusground-configurator). |
 | CoreDrive FOC ESC firmware (32-bit) | v0.3.2 | 245 ESC board configs, 4 MCU families. Host-tested, not yet run on a real ESC. |
 | CoreDrive-8051 (8-bit EFM8BB51) | **flying** | On all four of the Air65 II's 12A ESCs (layout A_X_05) since 2026-11-25. DShot telemetry errors at or below 0.4 % per motor on the bench (stock Bluejay: 4-27 %). Stock ESC images backed up and restorable. |
 | Oxiryn (ML framework) | onboard | Trains Vireo and exports the int8 weights the FC runs. Runs on the training machine, not on the aircraft. |
@@ -390,11 +390,27 @@ Because the FC and ESC firmware are designed together:
 
 ## Downloads
 
-> **Before you flash:** these are pre-beta builds. NexusFlight has flown on exactly one board model, and that flight ended in a crash we are still tracing. Back up your stock firmware first, flash with props off, and keep a way into the bootloader (the BOOT button or pads). See [Flashing Safety](#flashing-safety).
+> **Before you flash:** these are pre-beta builds. NexusFlight has flown on exactly one board model, the Air65 II. Back up your stock firmware first, flash with props off, and keep a way into the bootloader (the BOOT button or pads). See [Flashing Safety](#flashing-safety).
 
-### NexusGround (Configurator) v0.4.3
+### Latest: NexusGround 0.5.0, NexusFlight 0.4.0, CoreDrive-8051 0.4.0 (2026-11-26)
 
-The desktop app for configuring your flight controller and ESCs: PID tuning, FOC tuning, rates, receiver setup, OSD, VTX, blackbox, firmware flashing, auto-tune, live debug telemetry, and more. **Ships with all 29 released board firmware images built in.** The redesigned NexusGround shown [below](#nexusground-configurator) is not in this release yet.
+The builds running on our BETAFPV Air65 II Championship Edition. Each release has a `SHA256SUMS` file; check your downloads with `sha256sum -c SHA256SUMS --ignore-missing`.
+
+| Release | Download | For | SHA-256 |
+|---------|----------|-----|---------|
+| **NexusGround 0.5.0** (build 32d4ff4) | [NexusGround_0.5.0_x64_portable.exe](https://github.com/AutomataNexus/NexusFlight-Suite/releases/download/nexusground-v0.5.0/NexusGround_0.5.0_x64_portable.exe) | Windows 10/11 x64, portable (needs WebView2, included in Windows 10/11) | `58dedb2b...1d91443` |
+| **NexusFlight firmware 0.4.0** (build 918f0d0) | [nexusflight-betafpv_g473_v2.bin](https://github.com/AutomataNexus/NexusFlight-Suite/releases/download/nexusflight-v0.4.0/nexusflight-betafpv_g473_v2.bin) | BETAFPV Matrix 1S 5IN1 II (Air65 II) only | `4e526841...5e9547c` |
+| **CoreDrive-8051 0.4.0** (build c333237) | [coredrive-8051_A_X_05_96_v0.4.0.hex](https://github.com/AutomataNexus/NexusFlight-Suite/releases/download/coredrive-8051-v0.4.0/coredrive-8051_A_X_05_96_v0.4.0.hex) | EFM8BB51 ESCs, layout A_X_05 (the Air65 II's onboard ESCs) | `5a4b93fe...c9475e05` |
+
+- **NexusGround 0.5.0** is the redesign shown [below](#nexusground-configurator). Windows only in this release; Linux and macOS builds are not published yet. Its internal version string still says 0.4.3.
+- **NexusFlight 0.4.0** reports NXFC 0.3.3 over MSP; 0.4.0 is build 918f0d0. Flash it with the battery out over the ROM DFU bootloader at 0x08000000 (NexusGround reboots the FC into DFU, no button needed); full steps in the [release notes](https://github.com/AutomataNexus/NexusFlight-Suite/releases/tag/nexusflight-v0.4.0). **Other boards were not built or flown at this commit**, so 0.4.0 has no images for them.
+- **CoreDrive-8051 0.4.0** is flashed from NexusGround's ESC page through the flight controller: battery in, props off, one ESC at a time, each ESC backed up first.
+
+### Older releases
+
+#### NexusGround (Configurator) v0.4.3
+
+The desktop app for configuring your flight controller and ESCs: PID tuning, FOC tuning, rates, receiver setup, OSD, VTX, blackbox, firmware flashing, auto-tune, live debug telemetry, and more. **Ships with all 29 released board firmware images built in.** The redesign is in 0.5.0 above.
 
 | Platform | Download | Size |
 |----------|----------|------|
@@ -405,7 +421,7 @@ The desktop app for configuring your flight controller and ESCs: PID tuning, FOC
 
 > **Note:** macOS builds are coming soon. For now, macOS users can build from source. See [Building from Source](docs/BUILDING.md).
 
-### NexusFlight Firmware v0.3.3
+#### NexusFlight Firmware v0.3.3
 
 One firmware image per board, built with that board's pin map. Flash through NexusGround's built-in flasher (it already includes them), or download individually from the [v0.3.3 release](https://github.com/AutomataNexus/NexusFlight-Suite/releases/tag/nexusflight-v0.3.3).
 
@@ -417,9 +433,9 @@ One firmware image per board, built with that board's pin map. Flash through Nex
 | **STM32G473** (5) | Happymodel CrazyBee G473, BETAFPV G473 (first revision), GEPRC Taker G473 AIO, HDZero Gamma 45A, HDZero AIO15 |
 | **STM32H743** (7) | HDZero Halo, GEPRC Taker H743, Sequre H7 V1 and V2, Matek H743, T-Motor Pacer H743, iFlight Blitz H7 Pro |
 
-> **G473 boards on v0.3.3:** bringing up the Air65 II found bugs in the STM32G473 target that each stop it on real hardware, including DShot output that never reaches the motors (wrong DMA request), missing ADC clock and boost mode, and flash erase on the wrong pages. **Do not use the v0.3.3 G473 images**; the fixes will be in the next release.
+> **G473 boards on v0.3.3:** bringing up the Air65 II found bugs in the STM32G473 target that each stop it on real hardware, including DShot output that never reaches the motors (wrong DMA request), missing ADC clock and boost mode, and flash erase on the wrong pages. **Do not use the v0.3.3 G473 images**; the fixes are in NexusFlight 0.4.0, which is published for the Air65 II only.
 
-> **BETAFPV Air65 II / Air75 II owners:** the `betafpv_g473` image in v0.3.3 is for the **first** BETAFPV G473 board revision and uses different pins. **Do not flash it to a Matrix 1S 5IN1 II.** That board gets its own target, `betafpv_g473_v2`. The Air65 II Championship Edition build is not published yet; it will come with the next release.
+> **BETAFPV Air65 II / Air75 II owners:** the `betafpv_g473` image in v0.3.3 is for the **first** BETAFPV G473 board revision and uses different pins. **Do not flash it to a Matrix 1S 5IN1 II.** That board gets its own target, `betafpv_g473_v2`, published in NexusFlight 0.4.0 above.
 
 ### NexusCore (Library)
 
